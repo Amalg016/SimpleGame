@@ -1,0 +1,9 @@
+/**
+ * 
+ */
+/**
+ * @author amalg
+ *
+ */
+module SimpleGame {
+}
