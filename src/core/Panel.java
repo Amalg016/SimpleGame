@@ -46,26 +46,26 @@ public class Panel extends JPanel implements Runnable{
 	public void run() {
 
 		double drawInterval=1000000000/FPS;
-		double dt=0;
+		//double dt=0;
 		long lastTime=System.nanoTime();
-		long currentTime;
+		//long currentTime;
 		long timer=0;
 		int drawCount=0;
 		
 		
 		while(gameThread!=null) 
 		{			
-		currentTime=System.nanoTime();
-		dt+=(currentTime-lastTime)/drawInterval;
-		timer+=(currentTime-lastTime);		
-		lastTime=currentTime;
+		Time.time=System.nanoTime();
+		Time.dt+=(Time.time-lastTime)/drawInterval;
+		timer+=(Time.time-lastTime);		
+		lastTime=Time.time;
 		
-		   if(dt>=1){
+		   if(Time.dt>=1){
 				
 			  update();			
 			  repaint();
 			
-		      dt--;		
+		      Time.dt--;		
 		      drawCount++;
 		    }
 	  	if(timer>=1000000000) {
