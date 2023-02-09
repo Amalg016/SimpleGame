@@ -32,12 +32,15 @@ Animation[] animations;
 	  x=100;
 	  y=100;
 	  speed=4;
+	  
+	  
 	 InputStream is=getClass().getResourceAsStream("/Images/Player/bigSpritesheet.png");
      try{
     	 image=ImageIO.read(is);
      }catch(Exception e) {
     	 System.out.println(e);
      }
+     
      loadAnims();
   }
   
