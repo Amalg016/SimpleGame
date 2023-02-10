@@ -11,6 +11,7 @@ import java.io.InputStream;
 import javax.imageio.ImageIO;
 
 import Components.Animation;
+import core.AssetPool;
 import core.KeyHandler;
 public class Player extends GameObject{
 Panel p;
@@ -18,25 +19,28 @@ KeyHandler keyH;
 
 final int idle=0;
 final int move=1;
-int state=0;
+int state=1;
 double timeTracker;
 int dir=1;
+int flipX=0;
+int flipW=1;
 
 BufferedImage[] idleAnim;
 BufferedImage[] runAnim;
 Animation[] animations;
   public Player(Panel p,KeyHandler h) {
-	 this.p=p;
+	 super();
+	  this.p=p;
 	 this.keyH=h;
 	 start();
   }
   public void start() {
-	  x=100;
-	  y=100;
-	  speed=4;
+	  x=220;
+	  y=300;
+	  speed=1;
 	  
-	  
-	 InputStream is=getClass().getResourceAsStream("/Images/Player/bigSpritesheet.png");
+	//image=AssetPool.getSpritesheet("Images/Player/Scavengers_Spritesheet.png");  
+	 InputStream is=getClass().getResourceAsStream("/Images/Player/Scavengers_Spritesheet.png");
      try{
     	 image=ImageIO.read(is);
      }catch(Exception e) {
@@ -48,10 +52,10 @@ Animation[] animations;
   
   public void loadAnims() {
 	  idleAnim=new BufferedImage[1];
-	  idleAnim[0]=image.getSubimage(0,0,16,30);
+	//  idleAnim[0]=image.getSubimage(0,0,16,30);
 	  runAnim=new BufferedImage[3];
       for(int i=0;i<runAnim.length;i++) {
-    	  runAnim[i]=image.getSubimage((i+1)*16, 0, 16, 30);
+    	  runAnim[i]=image.getSubimage((i)*33, 0, 33, 30);
       }
       animations=new Animation[2];
       animations[0]=new Animation();
@@ -62,54 +66,72 @@ Animation[] animations;
   
   int currentIndex=0;
   int lastState=0;
+  
+  @Override
   public void update() {
-	  if(keyH.upPressed) {
-			y-=speed;
-		}
-		else if(keyH.downPressed) {
-			y+=speed;
-		}
-		else if(keyH.leftPressed) {
-			x-=speed;
-			state=1;
-			dir=-1;
-		}
-		else if(keyH.rightPressed) {
-			x+=speed;
-			state=1;
-			dir=1;
-		}
-		else if(!keyH.upPressed && !keyH.downPressed && !keyH.leftPressed && !keyH.rightPressed) {
-			state=0;
-		}
-	  
-	  
-	   timeTracker -= Time.dt;
-	if(state!=lastState) {currentIndex=0;}
-	    if(timeTracker <= 0)
-        {
-          lastState=state;
-		if (currentIndex < animations[state].clip.length-1)
-          {
-              currentIndex++;
-          }
-          else if(currentIndex==animations[state].clip.length-1)
-          {
-              currentIndex=(currentIndex+1)%animations[state].clip.length;
-          }
-        timeTracker=10; 
-		image= animations[state].clip[currentIndex]; 
-        }       
+	   updatePos();
+	   updateHitbox();
+	   updateAnim();
   }
   
+  //Updating position based on input
+  public void updatePos() {
+	   if(!keyH.upPressed && !keyH.downPressed && !keyH.leftPressed && !keyH.rightPressed) {
+		return;
+	   }
+	  int xSpeed=0,ySpeed=0;
+	  if(keyH.upPressed) {
+			ySpeed=-speed;
+		}
+		else if(keyH.downPressed) {
+			ySpeed=speed;
+		}
+		else if(keyH.leftPressed) {
+			xSpeed=-speed;
+			dir=-1;
+			flipX=width;
+			flipW=-1;
+		}
+		else if(keyH.rightPressed) {
+			xSpeed=speed;
+			dir=1;
+			flipX=0;
+			flipW=1;
+		}
+	  if(canMoveHere(x+xSpeed,y+ySpeed)) {
+		  System.out.println(xSpeed);
+		  this.x+=xSpeed;
+		  this.y+=ySpeed;
+	  }
+	  
+  }
+  
+  //updating animations
+  public void updateAnim() {
+	  timeTracker -= Time.dt;
+		if(state!=lastState) {currentIndex=0;}
+		    if(timeTracker <= 0)
+	        {
+	          lastState=state;
+			if (currentIndex < animations[state].clip.length-1)
+	          {
+	              currentIndex++;
+	          }
+	          else if(currentIndex==animations[state].clip.length-1)
+	          {
+	               currentIndex=(currentIndex+1)%animations[state].clip.length;
+	          }
+	        timeTracker=10; 
+			image= animations[state].clip[currentIndex]; 
+	        }    
+  }
+  
+  @Override
   public void render(Graphics2D g2) {
 		//g2.setColor(Color.white);
 		//g2.fillRect(x,y, p.tileSize,p.tileSize);	
-	//	AffineTransform at = AffineTransform.getTranslateInstance(x, y);
-		
-       // at.rotate(Math.toRadians(0), 16/2.0, 30/2.0);
-        g2.drawImage(image,x,y,30*dir,30,null);
-      //  g2.drawImage(image,x, y, null);
-      //  g2.drawImage(runAnim[0],x, y, null);
+
+        g2.drawImage(image,hitbox.x+flipX,hitbox.y,width*flipW,height,null);
+        drawHitbox(g2);
   }
 }

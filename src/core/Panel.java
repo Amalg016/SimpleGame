@@ -4,9 +4,12 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.util.ArrayList;
 
 import javax.swing.JPanel;
 
+import GameObjects.Apple;
+import GameObjects.GameObject;
 import GameObjects.Player;
 
 public class Panel extends JPanel implements Runnable{
@@ -27,8 +30,9 @@ public class Panel extends JPanel implements Runnable{
 	
 	Thread gameThread;
 	KeyHandler keyH=new KeyHandler();
-	Player player=new Player(this,keyH);
-	
+	SceneManager scene=new SceneManager();
+	public static ArrayList<GameObject> sceneObjects=new ArrayList<GameObject>();
+	Player player;
 	public Panel() {
 		this.setPreferredSize(new Dimension(screenWidth,screenHeight));
 		this.setBackground(Color.black);
@@ -52,7 +56,7 @@ public class Panel extends JPanel implements Runnable{
 		long timer=0;
 		int drawCount=0;
 		
-		
+		start();
 		while(gameThread!=null) 
 		{			
 		Time.time=System.nanoTime();
@@ -69,20 +73,35 @@ public class Panel extends JPanel implements Runnable{
 		      drawCount++;
 		    }
 	  	if(timer>=1000000000) {
-			System.out.println("FPS"+drawCount);
+			//System.out.println("FPS"+drawCount);
 			drawCount=0;
 			timer=0;
 		}
 		}
 	}
+	private void start() {
+		player=new Player(this,keyH);
+		sceneObjects.add(player);
+		Apple apple=new Apple(200,400,player);
+		sceneObjects.add(apple);
+	}
+
 	public void update() {
-		player.update();
+for(int i=0;i< sceneObjects.size();i++) {
+	sceneObjects.get(i).update();
+}
+		//player.update();
 	} 
 	
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		Graphics2D g2=(Graphics2D)g;
-		player.render(g2);
+		scene.render(g);
+		
+		for(int i=0;i< sceneObjects.size();i++) {
+			sceneObjects.get(i).render(g2);
+		}
+	//	player.render(g2);
 		g2.dispose();
 	}
 }
