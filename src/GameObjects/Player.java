@@ -5,7 +5,6 @@ import core.Time;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
-import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.io.InputStream;
 
@@ -21,6 +20,7 @@ final int idle=0;
 final int move=1;
 int state=0;
 double timeTracker;
+int dir=1;
 
 BufferedImage[] idleAnim;
 BufferedImage[] runAnim;
@@ -72,10 +72,12 @@ Animation[] animations;
 		else if(keyH.leftPressed) {
 			x-=speed;
 			state=1;
+			dir=-1;
 		}
 		else if(keyH.rightPressed) {
 			x+=speed;
 			state=1;
+			dir=1;
 		}
 		else if(!keyH.upPressed && !keyH.downPressed && !keyH.leftPressed && !keyH.rightPressed) {
 			state=0;
@@ -103,10 +105,10 @@ Animation[] animations;
   public void render(Graphics2D g2) {
 		//g2.setColor(Color.white);
 		//g2.fillRect(x,y, p.tileSize,p.tileSize);	
-		AffineTransform at = AffineTransform.getTranslateInstance(x, y);
-
-        at.rotate(Math.toRadians(90), 16/2.0, 30/2.0);
-        g2.drawImage(image,x,y,null);
+	//	AffineTransform at = AffineTransform.getTranslateInstance(x, y);
+		
+       // at.rotate(Math.toRadians(0), 16/2.0, 30/2.0);
+        g2.drawImage(image,x,y,30*dir,30,null);
       //  g2.drawImage(image,x, y, null);
       //  g2.drawImage(runAnim[0],x, y, null);
   }
