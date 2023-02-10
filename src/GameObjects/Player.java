@@ -4,6 +4,8 @@ import core.Time;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.geom.AffineTransform;
+import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.io.InputStream;
 
@@ -94,14 +96,18 @@ Animation[] animations;
               currentIndex=(currentIndex+1)%animations[state].clip.length;
           }
         timeTracker=10; 
-		image= animations[state].clip[currentIndex];        
+		image= animations[state].clip[currentIndex]; 
         }       
   }
   
   public void render(Graphics2D g2) {
-		g2.setColor(Color.white);
+		//g2.setColor(Color.white);
 		//g2.fillRect(x,y, p.tileSize,p.tileSize);	
-        g2.drawImage(image,x, y, null);
+		AffineTransform at = AffineTransform.getTranslateInstance(x, y);
+
+        at.rotate(Math.toRadians(90), 16/2.0, 30/2.0);
+        g2.drawImage(image,x,y,null);
+      //  g2.drawImage(image,x, y, null);
       //  g2.drawImage(runAnim[0],x, y, null);
   }
 }
