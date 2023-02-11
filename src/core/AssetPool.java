@@ -12,24 +12,32 @@ public class AssetPool {
 	
 public static Map<String,BufferedImage> spritesheets=new HashMap();
 
+public AssetPool() {
+	 InputStream is=getClass().getResourceAsStream("/Assets/Images/Scavengers_Spritesheet.png");
+     try{
+    	 
+    	 AssetPool.spritesheets.put("spritesheet1",ImageIO.read(is)); 	 
+     }catch(Exception e) {
+    	 System.out.println(e);
+     }  
+      is=getClass().getResourceAsStream("/Assets/Images/Gui.png");
+     try{
+    	 
+    	 AssetPool.spritesheets.put("spritesheet2",ImageIO.read(is)); 	 
+     }catch(Exception e) {
+    	 System.out.println(e);
+     }  
+
+}
+
 public static BufferedImage getSpritesheet(String name) {
-	  File file = new File(name);
-	  BufferedImage texture; 
-     
-		if (AssetPool.spritesheets.containsKey(file.getAbsolutePath())) {
-		      return AssetPool.spritesheets.get(file.getAbsolutePath());
-		  } else {
-		     // InputStream is=getClass().getResourceAsStream("/Images/Player/Scavengers_Spritesheet.png");
-		      try{
-//		     	 texture=ImageIO.read(is);
-		    	  texture=ImageIO.read(new File(name));
-		    	  AssetPool.spritesheets.put(file.getAbsolutePath(), texture);
-		    	  return texture;
-		      }catch(Exception e) {
-		     	 System.out.println(e);
-		      }
+		if (AssetPool.spritesheets.containsKey(name)) {
+		      return AssetPool.spritesheets.get(name);
 		  }
-	
-      return null;
+		else 
+		{
+			System.out.println("No sheets with that name");  
+		}	
+		return null;
 }
 }

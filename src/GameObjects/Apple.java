@@ -5,6 +5,7 @@ import java.io.InputStream;
 
 import javax.imageio.ImageIO;
 
+import core.AssetPool;
 import core.Window;
 
 public class Apple extends GameObject{
@@ -17,15 +18,9 @@ public Apple(int x,int y,Player player) {
 	this.y=y;
    this.player=player;
    Window.interactables.add(this);
-
-  
-  InputStream is=getClass().getResourceAsStream("/Assets/Images/Scavengers_Spritesheet.png");
-     try{
-    	 image=ImageIO.read(is);
-     }catch(Exception e) {
-    	 System.out.println(e);
-     }
+     image=AssetPool.getSpritesheet("spritesheet1");
      image=image.getSubimage(3*30, 2*32, 30, 32);
+     
 
 }
 

@@ -4,6 +4,7 @@ import core.Time;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.Rectangle;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
@@ -12,27 +13,35 @@ import java.io.InputStream;
 import javax.imageio.ImageIO;
 
 import Components.Animation;
+import Interfaces.IDamageable;
 import core.AssetPool;
 import core.KeyHandler;
-public class Player extends GameObject{
-Window p;
-KeyHandler keyH;
+public class Player extends GameObject implements IDamageable{
 
-final int idle=0;
-final int move=1;
-int state=0;
-double timeTracker;
-int dir=1;
-int flipX=0;
-int flipW=1;
+	Window p;
+	KeyHandler keyH;
 
-BufferedImage[] runAnim;
-BufferedImage[] attackAnim;
-Animation[] animations;
-Rectangle2D.Float attackbox;
+//Animation related
+	int state=0;
+	final int idle=0;
+    final int move=1;
+    final int dead=2;
+    BufferedImage[] runAnim;
+    BufferedImage[] attackAnim;
+    Animation[] animations;
+    double timeTracker;
 
+//direction related
+    int dir=1;
+    int flipX=0;
+    int flipW=1;
 
+//Combat related
+    Rectangle2D.Float attackbox;
 
+//Health
+    final int maxLives=5;    
+    public int currentLives=3;
 
   public Player(Window p,KeyHandler h) {
 	 super();
@@ -43,16 +52,9 @@ Rectangle2D.Float attackbox;
   public void start() {
 	  x=60;
 	  y=500;
-	  speed=1;
+	  speed=2;
 	  
-	//image=AssetPool.getSpritesheet("Images/Player/Scavengers_Spritesheet.png");  
-	 InputStream is=getClass().getResourceAsStream("/Assets/Images/Scavengers_Spritesheet.png");
-     try{
-    	 image=ImageIO.read(is);
-     }catch(Exception e) {
-    	 System.out.println(e);
-     }
-     
+	image=AssetPool.getSpritesheet("spritesheet1");       
      loadAnims();
      loadAttackBox();
   }
@@ -102,8 +104,8 @@ Rectangle2D.Float attackbox;
 	  if(keyH.SpaceBarPressed&&state!=1) {
 		  state=1;
 		  for(int i =0;i<Window.enemyObjects.size();i++) {
-			  if(attackbox.intersects(Window.enemyObjects.get(i).hitbox)) {
-				  Window.enemyObjects.get(i).Destroy();
+			  if(attackbox.intersects(Window.enemyObjects.get(i).getHitbox())) {
+				  Window.enemyObjects.get(i).TakeDamage(10);
 			  }
 			  
 		  }
@@ -186,5 +188,15 @@ Rectangle2D.Float attackbox;
   public void DrawAttackbox(Graphics2D g2) {
 	  g2.setColor(Color.blue);
 	  g2.drawRect((int)attackbox.x, (int)attackbox.y,(int) attackbox.width,(int) attackbox.height);
+  }
+ 
+  @Override
+  public Rectangle getHitbox() {
+		return hitbox;
+  }
+  
+  @Override
+  public void TakeDamage(int damage) {
+	
   }
 }

@@ -12,17 +12,20 @@ import GameObjects.Apple;
 import GameObjects.GameObject;
 import GameObjects.Player;
 import GameObjects.Zombie;
+import Interfaces.IDamageable;
 
 public class Window extends JPanel implements Runnable{
 
 	final static int originalTileSize=16;
-	final  static int scale=3;
+	final static int scale=3;
 	public static final int tileSize = originalTileSize*scale;
 	final static int maxScreenCol=16;
 	final static int maxScreenRow=12;
 	public static final int screenWidth=tileSize*maxScreenCol;
 	public static final int screenHeight=tileSize*maxScreenRow;			
-
+    
+	
+	
 	int FPS=60;
 	
 	int playerX=100;
@@ -30,19 +33,21 @@ public class Window extends JPanel implements Runnable{
 	int playerSpeed=4;
 	
 	Thread gameThread;
-	KeyHandler keyH=new KeyHandler();
+	private AssetPool ap=new AssetPool();
+	KeyHandler keyH=new KeyHandler(this);
 	SceneManager scene=new SceneManager();
 	
 	public static ArrayList<GameObject> sceneObjects=new ArrayList<GameObject>();
 	public static ArrayList<GameObject> interactables=new ArrayList<GameObject>();
-	public static ArrayList<GameObject> enemyObjects=new ArrayList<GameObject>();
+	public static ArrayList<IDamageable> enemyObjects=new ArrayList<IDamageable>();
 	
 	UI ui;
 	Player player;
 	
-	int gameState;
-    final int playState=0;
-    final int pauseState=1;
+	public int gameState=0;
+    public final int titleState=0;
+	public final int playState=1;
+    public final int pauseState=2;
 		
 	public Window() {
 		this.setPreferredSize(new Dimension(screenWidth,screenHeight));
@@ -61,9 +66,7 @@ public class Window extends JPanel implements Runnable{
 	public void run() {
 
 		double drawInterval=1000000000/FPS;
-		//double dt=0;
 		long lastTime=System.nanoTime();
-		//long currentTime;
 		long timer=0;
 		int drawCount=0;
 		
@@ -91,7 +94,7 @@ public class Window extends JPanel implements Runnable{
 		}
 	}
 	private void start() {
-		gameState=playState;
+		//gameState=playState;
 		ui=new UI(this);
 		player=new Player(this,keyH);
 		//sceneObjects.add(player);
@@ -103,7 +106,7 @@ public class Window extends JPanel implements Runnable{
 	private boolean P_Ready=true;
 	//Logic Update
 	public void update() {
-			if(keyH.CtrlPressed&& keyH.P_Pressed) {
+			if(keyH.Esc_Pressed) {
 				if(P_Ready) {
 				gameState=gameState==playState?pauseState:playState;
 				P_Ready=false;
@@ -127,13 +130,17 @@ public class Window extends JPanel implements Runnable{
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		Graphics2D g2=(Graphics2D)g;
-		
+		if(gameState==titleState){
+		   
+		}
+		else{
 		scene.render(g);
 		player.render(g2);
 			for(int i=0;i< sceneObjects.size();i++) {
-			sceneObjects.get(i).render(g2);
-			}
-			ui.render(g2);
+			sceneObjects.get(i).render(g2);	
+			}	
+		}
+		ui.render(g2);
 			
 		g2.dispose();
 	}

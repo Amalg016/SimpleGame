@@ -1,17 +1,39 @@
 package GameObjects;
 
 import java.awt.Graphics2D;
+import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.io.InputStream;
 
 import javax.imageio.ImageIO;
 
 import Components.Animation;
+import Interfaces.IDamageable;
+import core.AssetPool;
 import core.Time;
 import core.Window;
 
-public class Zombie extends GameObject {
+public class Zombie extends GameObject implements IDamageable{
 	
+	Player player;
+
+	//Rendering stuffs
+	BufferedImage[] runAnim;
+	Animation[] animations;
+	int state=0;
+	double timeTracker;
+	int currentSpriteIndex=0;
+	int lastState=0;
+	
+	
+	//direction variables
+	int dir=1;
+	int flipX=0;
+	int flipW=1;
+   //Health variables
+	final int maxHealth=20;  
+	int currentHealth;  
+	  
 	public Zombie(int x, int y,Player player) {
 		super();
 		this.x=x;
@@ -20,25 +42,12 @@ public class Zombie extends GameObject {
 		loadImage();
 		loadAnims();
 		Window.enemyObjects.add(this);
+		currentHealth=maxHealth;
 	}
 	
-	Player player;
-	BufferedImage[] runAnim;
-	Animation[] animations;
-	int state=0;
-	double timeTracker;
-	int dir=1;
-	int flipX=0;
-	int flipW=1;
-
-	
+		
 	public void loadImage() {
-		 InputStream is=getClass().getResourceAsStream("/Assets/Images/Scavengers_Spritesheet.png");
-	     try{
-	    	 image=ImageIO.read(is);
-	     }catch(Exception e) {
-	    	 System.out.println(e);
-	     }     
+		  image=AssetPool.getSpritesheet("spritesheet1");   
 	}
 	public void loadAnims() {
 		 runAnim=new BufferedImage[6];
@@ -52,8 +61,6 @@ public class Zombie extends GameObject {
 	      animations[0].clip=runAnim;
 	}
 	
-	  int currentIndex=0;
-	  int lastState=0;
 	 
 	@Override
 	public void update() {
@@ -64,20 +71,20 @@ public class Zombie extends GameObject {
 	
 	void updateAnim(){
 		 timeTracker -= Time.dt;
-			if(state!=lastState) {currentIndex=0;}
+			if(state!=lastState) {currentSpriteIndex=0;}
 			    if(timeTracker <= 0)
 		        {
 		          lastState=state;
-				if (currentIndex < animations[state].clip.length-1)
+				if (currentSpriteIndex < animations[state].clip.length-1)
 		          {
-		              currentIndex++;
+		              currentSpriteIndex++;
 		          }
-		          else if(currentIndex==animations[state].clip.length-1)
+		          else if(currentSpriteIndex==animations[state].clip.length-1)
 		          {
-		               currentIndex=(currentIndex+1)%animations[state].clip.length;
+		               currentSpriteIndex=(currentSpriteIndex+1)%animations[state].clip.length;
 		          }
 		        timeTracker=10; 
-				image= animations[state].clip[currentIndex]; 
+				 image= animations[state].clip[currentSpriteIndex]; 
 		        }    	  
 	}
 	
@@ -85,10 +92,23 @@ public class Zombie extends GameObject {
 	public void render(Graphics2D g) {
 		g.drawImage(image, x+flipX, y, width*flipW, height, null);
 	}
+	
 	@Override
 	public void Destroy() {
 		super.Destroy();
 		Window.enemyObjects.remove(this);
+	}
+	@Override
+	public Rectangle getHitbox() {
+		return hitbox;
+	}
+	//Health System
+	@Override
+	public void TakeDamage(int damage) {
+		currentHealth-=damage;
+		if(currentHealth<=0) {
+			Destroy();
+		}
 	}
 	
 }

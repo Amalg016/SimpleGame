@@ -6,11 +6,13 @@ import java.awt.event.KeyListener;
 public class KeyHandler implements KeyListener{
 
 	public boolean upPressed,downPressed,leftPressed,rightPressed;
-	public boolean CtrlPressed,P_Pressed;
-	public boolean SpaceBarPressed;
+	public boolean CtrlPressed,Esc_Pressed;
+	public boolean SpaceBarPressed,EnterPressed;
 	boolean spaceReady=true;
-	
-	
+	Window window;
+	public KeyHandler(Window w) {
+		window=w;
+	}
 	
 	@Override
 	public void keyTyped(KeyEvent e) {
@@ -20,36 +22,69 @@ public class KeyHandler implements KeyListener{
 	@Override
 	public void keyPressed(KeyEvent e) {
 		int code =e.getKeyCode();
-		P_Pressed=false;
-		if(code==KeyEvent.VK_W) {
+		
+		if(window.gameState==window.titleState) {
+			if(code==KeyEvent.VK_W) {
+				window.ui.commandNum--;
+				if(window.ui.commandNum<0) {
+					window.ui.commandNum=2;
+				}
+			}
+			if(code==KeyEvent.VK_S) {
+				window.ui.commandNum++;	
+				if(window.ui.commandNum>2) {
+					window.ui.commandNum=0;
+				}
+			}
+			if(code==KeyEvent.VK_ENTER) {
+				if(window.ui.commandNum==0) {				
+					window.gameState=window.playState;	
+				}
+				if(window.ui.commandNum==2) {				
+				  System.exit(0);
+				}
+			}
+		}
+		if(window.gameState==window.playState)
+		{	
+			if(code==KeyEvent.VK_W) {
 			upPressed=true;
 		}
-		if(code==KeyEvent.VK_S) {
+			if(code==KeyEvent.VK_S) {
 			downPressed=true;
 		}
-		if(code==KeyEvent.VK_A) {
+			if(code==KeyEvent.VK_A) {
 			leftPressed=true;
 		}
-		if(code==KeyEvent.VK_D) {
+			if(code==KeyEvent.VK_D) {
 			rightPressed=true;
 		}
-		if(code==KeyEvent.VK_CONTROL) {
+			if(code==KeyEvent.VK_CONTROL) {
 			CtrlPressed=true;
 		}
-		if(code==KeyEvent.VK_P) {
-				P_Pressed=true;	
+			if(code==KeyEvent.VK_ESCAPE) {
+				Esc_Pressed=true;	
 		}
-		if(code==KeyEvent.VK_SPACE) {
-			if(spaceReady) {
+			if(code==KeyEvent.VK_SPACE) {
+				if(spaceReady) {
 				SpaceBarPressed=true;	
 				spaceReady=false;				 
+				}
 			}
-		}		
+		}
+		if(window.gameState==window.pauseState)
+		{
+			if(code==KeyEvent.VK_ESCAPE) {
+				Esc_Pressed=true;	
+			}
+		}
 	}
 
 	@Override
 	public void keyReleased(KeyEvent e) {
 		int code =e.getKeyCode();
+		
+		
 		if(code==KeyEvent.VK_W) {
 			upPressed=false;
 		}
@@ -65,11 +100,14 @@ public class KeyHandler implements KeyListener{
 		if(code==KeyEvent.VK_CONTROL) {
 			CtrlPressed=false;
 		}
-		if(code==KeyEvent.VK_P) {
-			P_Pressed=true;
+		if(code==KeyEvent.VK_ESCAPE) {
+			Esc_Pressed=false;
 		}
 		if(code==KeyEvent.VK_SPACE) {
 			spaceReady=true;			
+		}
+		if(code==KeyEvent.VK_ENTER) {
+			EnterPressed=false;	
 		}
 	}
 
