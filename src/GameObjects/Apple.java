@@ -5,20 +5,21 @@ import java.io.InputStream;
 
 import javax.imageio.ImageIO;
 
+import core.Window;
+
 public class Apple extends GameObject{
 
-public Apple() {
-	super();
-}
+
 Player player;
 public Apple(int x,int y,Player player) {
 	super();
 	this.x=x;
 	this.y=y;
    this.player=player;
+   Window.interactables.add(this);
 
   
-  InputStream is=getClass().getResourceAsStream("/Images/Scavengers_Spritesheet.png");
+  InputStream is=getClass().getResourceAsStream("/Assets/Images/Scavengers_Spritesheet.png");
      try{
     	 image=ImageIO.read(is);
      }catch(Exception e) {
@@ -36,10 +37,15 @@ public void update() {
 
 
 public void CheckForPlayer() {
-  	if(((int) player.hitbox.x/30==(int)hitbox.x/30)&&((int) player.hitbox.y/30==(int)hitbox.y/30)) {
-  		
+  	if(player.hitbox.intersects(hitbox)) {	
   		Destroy();
   	}  	
+}
+
+@Override
+public void Destroy() {
+	super.Destroy();
+	Window.interactables.remove(this);
 }
 
 @Override

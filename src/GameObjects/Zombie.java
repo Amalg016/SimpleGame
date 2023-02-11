@@ -8,11 +8,10 @@ import javax.imageio.ImageIO;
 
 import Components.Animation;
 import core.Time;
+import core.Window;
 
 public class Zombie extends GameObject {
-	public Zombie() {
-		super();
-	}
+	
 	public Zombie(int x, int y,Player player) {
 		super();
 		this.x=x;
@@ -20,6 +19,7 @@ public class Zombie extends GameObject {
 		this.player=player;
 		loadImage();
 		loadAnims();
+		Window.enemyObjects.add(this);
 	}
 	
 	Player player;
@@ -33,7 +33,7 @@ public class Zombie extends GameObject {
 
 	
 	public void loadImage() {
-		 InputStream is=getClass().getResourceAsStream("/Images/Scavengers_Spritesheet.png");
+		 InputStream is=getClass().getResourceAsStream("/Assets/Images/Scavengers_Spritesheet.png");
 	     try{
 	    	 image=ImageIO.read(is);
 	     }catch(Exception e) {
@@ -58,6 +58,8 @@ public class Zombie extends GameObject {
 	@Override
 	public void update() {
 		updateAnim();
+		updateHitbox();
+       // updatePos();
 	}
 	
 	void updateAnim(){
@@ -82,6 +84,11 @@ public class Zombie extends GameObject {
 	@Override
 	public void render(Graphics2D g) {
 		g.drawImage(image, x+flipX, y, width*flipW, height, null);
+	}
+	@Override
+	public void Destroy() {
+		super.Destroy();
+		Window.enemyObjects.remove(this);
 	}
 	
 }

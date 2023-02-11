@@ -7,6 +7,10 @@ public class KeyHandler implements KeyListener{
 
 	public boolean upPressed,downPressed,leftPressed,rightPressed;
 	public boolean CtrlPressed,P_Pressed;
+	public boolean SpaceBarPressed;
+	boolean spaceReady=true;
+	
+	
 	
 	@Override
 	public void keyTyped(KeyEvent e) {
@@ -17,7 +21,6 @@ public class KeyHandler implements KeyListener{
 	public void keyPressed(KeyEvent e) {
 		int code =e.getKeyCode();
 		P_Pressed=false;
-		
 		if(code==KeyEvent.VK_W) {
 			upPressed=true;
 		}
@@ -36,6 +39,12 @@ public class KeyHandler implements KeyListener{
 		if(code==KeyEvent.VK_P) {
 				P_Pressed=true;	
 		}
+		if(code==KeyEvent.VK_SPACE) {
+			if(spaceReady) {
+				SpaceBarPressed=true;	
+				spaceReady=false;				 
+			}
+		}		
 	}
 
 	@Override
@@ -59,6 +68,12 @@ public class KeyHandler implements KeyListener{
 		if(code==KeyEvent.VK_P) {
 			P_Pressed=true;
 		}
+		if(code==KeyEvent.VK_SPACE) {
+			spaceReady=true;			
+		}
 	}
 
+	public void update() {
+		SpaceBarPressed=false;
+	}
 }

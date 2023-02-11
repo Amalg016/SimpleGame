@@ -44,18 +44,17 @@ public class GameObject {
 	}
 	
 	protected boolean isSolid(int x,int y) {
-//		if(x<0 || x>=500)
-//			return true;
-//		if(y<0 || y>=300)
-//			return true;
+		if(x<0 || x>=Window.screenWidth)
+			return true;
+		if(y<0 || y>=Window.screenHeight)
+			return true;
 		float xIndex=x/30;
 		float yIndex=y/30;
 		//	int value=SceneManager.map[x][y];
 		int value=SceneManager.map[(int)yIndex][(int)xIndex];
-		if(value==1)
-		{			
+		if(value==1)			
 			return true;
-		}return false;
+		return false;
 	}
 	public void update() {
 		

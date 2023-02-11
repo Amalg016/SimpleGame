@@ -15,13 +15,13 @@ import GameObjects.Zombie;
 
 public class Window extends JPanel implements Runnable{
 
-	final int originalTileSize=16;
-	final int scale=3;
-	public final int tileSize = originalTileSize*scale;
-	final int maxScreenCol=16;
-	final int maxScreenRow=12;
-	final int screenWidth=tileSize*maxScreenCol;
-	final int screenHeight=tileSize*maxScreenRow;			
+	final static int originalTileSize=16;
+	final  static int scale=3;
+	public static final int tileSize = originalTileSize*scale;
+	final static int maxScreenCol=16;
+	final static int maxScreenRow=12;
+	public static final int screenWidth=tileSize*maxScreenCol;
+	public static final int screenHeight=tileSize*maxScreenRow;			
 
 	int FPS=60;
 	
@@ -32,13 +32,18 @@ public class Window extends JPanel implements Runnable{
 	Thread gameThread;
 	KeyHandler keyH=new KeyHandler();
 	SceneManager scene=new SceneManager();
+	
 	public static ArrayList<GameObject> sceneObjects=new ArrayList<GameObject>();
+	public static ArrayList<GameObject> interactables=new ArrayList<GameObject>();
+	public static ArrayList<GameObject> enemyObjects=new ArrayList<GameObject>();
+	
+	UI ui;
 	Player player;
+	
 	int gameState;
     final int playState=0;
     final int pauseState=1;
-	
-	
+		
 	public Window() {
 		this.setPreferredSize(new Dimension(screenWidth,screenHeight));
 		this.setBackground(Color.black);
@@ -85,12 +90,11 @@ public class Window extends JPanel implements Runnable{
 		}
 		}
 	}
-	UI ui;
 	private void start() {
 		gameState=playState;
 		ui=new UI(this);
 		player=new Player(this,keyH);
-		sceneObjects.add(player);
+		//sceneObjects.add(player);
 		Apple apple=new Apple(200,400,player);
 		sceneObjects.add(apple);
 		Zombie z=new Zombie(400,400,player);
@@ -111,10 +115,12 @@ public class Window extends JPanel implements Runnable{
 		
 		
 		if(gameState==playState) {
+			player.update();
 			for(int i=0;i< sceneObjects.size();i++) {
 				sceneObjects.get(i).update();
 			}					
 		}		
+		keyH.update();   
 	} 
 	
 	//Rendering 
@@ -123,11 +129,12 @@ public class Window extends JPanel implements Runnable{
 		Graphics2D g2=(Graphics2D)g;
 		
 		scene.render(g);
-		
+		player.render(g2);
 			for(int i=0;i< sceneObjects.size();i++) {
 			sceneObjects.get(i).render(g2);
 			}
 			ui.render(g2);
+			
 		g2.dispose();
 	}
 }

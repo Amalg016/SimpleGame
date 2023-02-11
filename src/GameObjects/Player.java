@@ -5,6 +5,7 @@ import core.Time;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.InputStream;
 
@@ -19,7 +20,7 @@ KeyHandler keyH;
 
 final int idle=0;
 final int move=1;
-int state=1;
+int state=0;
 double timeTracker;
 int dir=1;
 int flipX=0;
@@ -28,6 +29,11 @@ int flipW=1;
 BufferedImage[] runAnim;
 BufferedImage[] attackAnim;
 Animation[] animations;
+Rectangle2D.Float attackbox;
+
+
+
+
   public Player(Window p,KeyHandler h) {
 	 super();
 	  this.p=p;
@@ -40,7 +46,7 @@ Animation[] animations;
 	  speed=1;
 	  
 	//image=AssetPool.getSpritesheet("Images/Player/Scavengers_Spritesheet.png");  
-	 InputStream is=getClass().getResourceAsStream("/Images/Scavengers_Spritesheet.png");
+	 InputStream is=getClass().getResourceAsStream("/Assets/Images/Scavengers_Spritesheet.png");
      try{
     	 image=ImageIO.read(is);
      }catch(Exception e) {
@@ -48,7 +54,14 @@ Animation[] animations;
      }
      
      loadAnims();
+     loadAttackBox();
   }
+  
+  
+  public void loadAttackBox() {
+	  	 attackbox=new Rectangle2D.Float(x,y,15,30); 
+  }
+  
   
   public void loadAnims() {
 	//  idleAnim[0]=image.getSubimage(0,0,16,30);
@@ -62,15 +75,15 @@ Animation[] animations;
 	  
 	  //updating running sprites to the array
 
-	  runAnim[0]=image.getSubimage(32,0*32, 32, 32); 
-	  runAnim[1]=image.getSubimage(64,0*32, 32, 32); 
+	  attackAnim[0]=image.getSubimage(0,5*32, 32, 32); 
+	  attackAnim[1]=image.getSubimage(32,5*32, 32, 32); 
 	  
 	  
       animations=new Animation[2];
       animations[0]=new Animation();
       animations[1]=new Animation();
-      animations[0].clip=attackAnim;
-      animations[1].clip=runAnim;
+      animations[0].clip=runAnim;
+      animations[1].clip=attackAnim;
   }
   
   int currentIndex=0;
@@ -78,9 +91,32 @@ Animation[] animations;
   
   @Override
   public void update() {
+	  updateAttackBox();
+	  updateAttackLogic();
 	   updatePos();
 	   updateHitbox();
 	   updateAnim();
+  }
+  
+  public void updateAttackLogic(){
+	  if(keyH.SpaceBarPressed&&state!=1) {
+		  state=1;
+		  for(int i =0;i<Window.enemyObjects.size();i++) {
+			  if(attackbox.intersects(Window.enemyObjects.get(i).hitbox)) {
+				  Window.enemyObjects.get(i).Destroy();
+			  }
+			  
+		  }
+		}
+  }
+  
+  public void updateAttackBox(){
+	  if(dir==1) {
+		  attackbox.x=hitbox.x+hitbox.width;
+	  }else {
+		  attackbox.x=hitbox.x-hitbox.width+15;
+	  }
+	  attackbox.y=hitbox.y;
   }
   
   //Updating position based on input
@@ -110,9 +146,9 @@ Animation[] animations;
 	  if(canMoveHere(x+xSpeed,y+ySpeed)) {
 		  this.x+=xSpeed;
 		  this.y+=ySpeed;
-	  }
-	  
+	  }	  
   }
+  
   
   //updating animations
   public void updateAnim() {
@@ -131,6 +167,9 @@ Animation[] animations;
 	          }
 	        timeTracker=10; 
 			image= animations[state].clip[currentIndex]; 
+			if(state==1&&currentIndex==1) {
+				state=0;
+			}
 	        }    
   }
   
@@ -140,6 +179,12 @@ Animation[] animations;
 		//g2.fillRect(x,y, p.tileSize,p.tileSize);	
         
         g2.drawImage(image,hitbox.x+flipX,hitbox.y,width*flipW,height,null);
-       // drawHitbox(g2);
+       DrawAttackbox(g2);
+        // drawHitbox(g2);
+  }
+  
+  public void DrawAttackbox(Graphics2D g2) {
+	  g2.setColor(Color.blue);
+	  g2.drawRect((int)attackbox.x, (int)attackbox.y,(int) attackbox.width,(int) attackbox.height);
   }
 }
