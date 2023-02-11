@@ -102,6 +102,8 @@ public class Window extends JPanel implements Runnable{
 		sceneObjects.add(apple);
 		Zombie z=new Zombie(400,400,player);
 		sceneObjects.add(z);
+		Zombie k=new Zombie(550,100,player);
+		sceneObjects.add(k);
 	}
 	private boolean P_Ready=true;
 	//Logic Update

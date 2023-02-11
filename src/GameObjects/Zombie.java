@@ -4,6 +4,7 @@ import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.io.InputStream;
+import java.util.Random;
 
 import javax.imageio.ImageIO;
 
@@ -27,10 +28,10 @@ public class Zombie extends GameObject implements IDamageable{
 	
 	
 	//direction variables
-	int dir=1;
 	int flipX=0;
 	int flipW=1;
-   //Health variables
+   
+	//Health variables
 	final int maxHealth=20;  
 	int currentHealth;  
 	  
@@ -43,6 +44,7 @@ public class Zombie extends GameObject implements IDamageable{
 		loadAnims();
 		Window.enemyObjects.add(this);
 		currentHealth=maxHealth;
+		speed=1;
 	}
 	
 		
@@ -64,11 +66,64 @@ public class Zombie extends GameObject implements IDamageable{
 	 
 	@Override
 	public void update() {
-		updateAnim();
 		updateHitbox();
-       // updatePos();
+		updatePos();
+		updateAnim();
 	}
-	
+	public enum Direction{left,right,up,down};
+	Direction dir=Direction.right;
+	private void updatePos() {
+		
+		ChooseDir();
+		int ySpeed=0,xSpeed=0;
+		switch(dir) {
+		case left:
+			xSpeed+=speed;
+			flipX=width;
+			flipW=-1;   
+			break;
+		case right:
+			xSpeed-=speed;
+			flipX=0;
+			flipW=1;
+			break;
+		case up:
+			ySpeed-=speed;
+			break;
+		case down:
+			ySpeed+=speed;
+			break;         
+		}
+		if(canMoveHere(x+xSpeed,y+ySpeed)) { 
+			  this.x+=xSpeed;                  
+			  this.y+=ySpeed;                  	 
+		}
+	}
+int actionCounter=0;
+
+	private void ChooseDir() {
+		actionCounter++;
+		if(actionCounter==120) {
+			Random random=new Random();
+			int i=random.nextInt(100);
+			
+			if(i<=25) {
+				dir=Direction.up;
+			}
+			if(i<=50&&i>25) {
+				dir=Direction.down;
+			}
+			if(i<=75&&i>50) {
+				dir=Direction.left;
+			}
+			if(i<=100&&i>75) {
+				dir=Direction.right;
+			}
+			actionCounter=0;
+		}
+	}
+
+
 	void updateAnim(){
 		 timeTracker -= Time.dt;
 			if(state!=lastState) {currentSpriteIndex=0;}
@@ -91,6 +146,7 @@ public class Zombie extends GameObject implements IDamageable{
 	@Override
 	public void render(Graphics2D g) {
 		g.drawImage(image, x+flipX, y, width*flipW, height, null);
+	    g.drawRect(hitbox.x, hitbox.y, 30, 30);
 	}
 	
 	@Override
