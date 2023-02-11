@@ -39,8 +39,7 @@ public class GameObject {
 			if(!isSolid(x+width,y+height))
 				if(!isSolid(x+width,y))
 					if(!isSolid(x,y+height))
-					{  System.out.println("kkk");
-						return true;}
+					{  return true;}
 		return false;
 	}
 	
@@ -53,9 +52,8 @@ public class GameObject {
 		float yIndex=y/30;
 		//	int value=SceneManager.map[x][y];
 		int value=SceneManager.map[(int)yIndex][(int)xIndex];
-		//  System.out.println(value);
 		if(value==1)
-		{			System.out.println(xIndex+","+yIndex);			
+		{			
 			return true;
 		}return false;
 	}

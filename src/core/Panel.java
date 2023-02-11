@@ -11,6 +11,7 @@ import javax.swing.JPanel;
 import GameObjects.Apple;
 import GameObjects.GameObject;
 import GameObjects.Player;
+import GameObjects.Zombie;
 
 public class Panel extends JPanel implements Runnable{
 
@@ -33,6 +34,11 @@ public class Panel extends JPanel implements Runnable{
 	SceneManager scene=new SceneManager();
 	public static ArrayList<GameObject> sceneObjects=new ArrayList<GameObject>();
 	Player player;
+	int gameState;
+    final int playState=0;
+    final int pauseState=1;
+	
+	
 	public Panel() {
 		this.setPreferredSize(new Dimension(screenWidth,screenHeight));
 		this.setBackground(Color.black);
@@ -80,26 +86,35 @@ public class Panel extends JPanel implements Runnable{
 		}
 	}
 	private void start() {
+		
+		gameState=playState;
+		
 		player=new Player(this,keyH);
 		sceneObjects.add(player);
 		Apple apple=new Apple(200,400,player);
 		sceneObjects.add(apple);
+		Zombie z=new Zombie(400,400,player);
+		sceneObjects.add(z);
 	}
 
+	//Logic Update
 	public void update() {
-for(int i=0;i< sceneObjects.size();i++) {
-	sceneObjects.get(i).update();
-}
-		//player.update();
+		if(gameState==playState) {
+			for(int i=0;i< sceneObjects.size();i++) {
+				sceneObjects.get(i).update();
+			}					
+		}		
 	} 
-	
+	//Rendering 
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		Graphics2D g2=(Graphics2D)g;
 		scene.render(g);
 		
-		for(int i=0;i< sceneObjects.size();i++) {
+		if(gameState==playState) {			
+			for(int i=0;i< sceneObjects.size();i++) {
 			sceneObjects.get(i).render(g2);
+			}
 		}
 	//	player.render(g2);
 		g2.dispose();

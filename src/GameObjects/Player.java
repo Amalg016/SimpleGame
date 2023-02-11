@@ -35,8 +35,8 @@ Animation[] animations;
 	 start();
   }
   public void start() {
-	  x=220;
-	  y=300;
+	  x=60;
+	  y=500;
 	  speed=1;
 	  
 	//image=AssetPool.getSpritesheet("Images/Player/Scavengers_Spritesheet.png");  
@@ -53,9 +53,9 @@ Animation[] animations;
   public void loadAnims() {
 	  idleAnim=new BufferedImage[1];
 	//  idleAnim[0]=image.getSubimage(0,0,16,30);
-	  runAnim=new BufferedImage[3];
+	  runAnim=new BufferedImage[6];
       for(int i=0;i<runAnim.length;i++) {
-    	  runAnim[i]=image.getSubimage((i)*33, 0, 33, 30);
+    	  runAnim[i]=image.getSubimage((i)*32, 0, 32, 32);
       }
       animations=new Animation[2];
       animations[0]=new Animation();
@@ -80,26 +80,25 @@ Animation[] animations;
 		return;
 	   }
 	  int xSpeed=0,ySpeed=0;
-	  if(keyH.upPressed) {
+	  if(keyH.upPressed&&!keyH.downPressed) {
 			ySpeed=-speed;
 		}
-		else if(keyH.downPressed) {
+	  if(keyH.downPressed&&!keyH.upPressed) {
 			ySpeed=speed;
 		}
-		else if(keyH.leftPressed) {
+	  if(keyH.leftPressed&&!keyH.rightPressed) {
 			xSpeed=-speed;
 			dir=-1;
 			flipX=width;
 			flipW=-1;
 		}
-		else if(keyH.rightPressed) {
+	  if(keyH.rightPressed&&!keyH.leftPressed) {
 			xSpeed=speed;
 			dir=1;
 			flipX=0;
 			flipW=1;
 		}
 	  if(canMoveHere(x+xSpeed,y+ySpeed)) {
-		  System.out.println(xSpeed);
 		  this.x+=xSpeed;
 		  this.y+=ySpeed;
 	  }
@@ -130,8 +129,8 @@ Animation[] animations;
   public void render(Graphics2D g2) {
 		//g2.setColor(Color.white);
 		//g2.fillRect(x,y, p.tileSize,p.tileSize);	
-
+        
         g2.drawImage(image,hitbox.x+flipX,hitbox.y,width*flipW,height,null);
-        drawHitbox(g2);
+       // drawHitbox(g2);
   }
 }

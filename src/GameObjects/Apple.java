@@ -37,6 +37,7 @@ public void update() {
 
 public void CheckForPlayer() {
   	if(((int) player.hitbox.x/30==(int)hitbox.x/30)&&((int) player.hitbox.y/30==(int)hitbox.y/30)) {
+  		
   		Destroy();
   	}  	
 }
