@@ -38,8 +38,8 @@ public class UI {
 
 	public void drawPauseScreen() {
 		String test="PAUSED";
-		int length=(int)g.
-		int x,y=gp.screenHeight/2; 
+	//	int length=(int)g.getFontMetrics().
+	//	int x,y=gp.screenHeight/2; 
 		
 	}
 }
