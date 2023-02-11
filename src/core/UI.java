@@ -8,8 +8,6 @@ public class UI {
 
     Window window;	
 	Font arial_40,arial_80B;
-	private String message;
-	private boolean messageOn;
 	Graphics2D g;
 	
 	public UI(Window p) {
@@ -18,11 +16,6 @@ public class UI {
          arial_80B=new Font("Arial",Font.BOLD,80);
 	}
 
-	public void showMessage(String test) {
-		message=test;
-		messageOn=true;
-	}
-	
 	public void render(Graphics2D g) {
 		this.g=g;
 		g.setFont(arial_40);
