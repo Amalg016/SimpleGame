@@ -6,14 +6,14 @@ import java.awt.Graphics2D;
 
 public class UI {
 
-    Panel gp;	
+    Window window;	
 	Font arial_40,arial_80B;
 	private String message;
 	private boolean messageOn;
 	Graphics2D g;
 	
-	public UI(Panel p) {
-         gp=p;
+	public UI(Window p) {
+         window=p;
          arial_40=new Font("Arial",Font.PLAIN,40);
          arial_80B=new Font("Arial",Font.BOLD,80);
 	}
@@ -28,18 +28,25 @@ public class UI {
 		g.setFont(arial_40);
 		g.setColor(Color.white);
 		
-		if(gp.gameState==gp.playState) {
+		if(window.gameState==window.playState) {
 			
 		}
-		if(gp.gameState==gp.pauseState) {
-			
+		if(window.gameState==window.pauseState) {
+			drawPauseScreen(); 	
 		}
 	}
 
+	
 	public void drawPauseScreen() {
+	g.setFont(g.getFont().deriveFont(Font.PLAIN,80F));
 		String test="PAUSED";
-	//	int length=(int)g.getFontMetrics().
-	//	int x,y=gp.screenHeight/2; 
-		
+		int x=getX(test);
+		int y=window.screenHeight/2; 
+		g.drawString(test,x,y);
+	}
+	public int getX(String test) {
+		int length=(int)g.getFontMetrics().getStringBounds(test, g).getWidth();
+		int x=window.screenWidth/2-length/2;
+		return x;	
 	}
 }

@@ -6,7 +6,7 @@ import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 
-import core.Panel;
+import core.Window;
 import core.SceneManager;
 
 public class GameObject {
@@ -64,6 +64,6 @@ public class GameObject {
 		
 	}
 	protected void Destroy() {
-		Panel.sceneObjects.remove(this);
+		Window.sceneObjects.remove(this);
 	}
 }

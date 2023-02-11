@@ -1,5 +1,5 @@
 package GameObjects;
-import core.Panel;
+import core.Window;
 import core.Time;
 
 import java.awt.Color;
@@ -14,7 +14,7 @@ import Components.Animation;
 import core.AssetPool;
 import core.KeyHandler;
 public class Player extends GameObject{
-Panel p;
+Window p;
 KeyHandler keyH;
 
 final int idle=0;
@@ -28,7 +28,7 @@ int flipW=1;
 BufferedImage[] idleAnim;
 BufferedImage[] runAnim;
 Animation[] animations;
-  public Player(Panel p,KeyHandler h) {
+  public Player(Window p,KeyHandler h) {
 	 super();
 	  this.p=p;
 	 this.keyH=h;

@@ -13,7 +13,7 @@ import GameObjects.GameObject;
 import GameObjects.Player;
 import GameObjects.Zombie;
 
-public class Panel extends JPanel implements Runnable{
+public class Window extends JPanel implements Runnable{
 
 	final int originalTileSize=16;
 	final int scale=3;
@@ -39,7 +39,7 @@ public class Panel extends JPanel implements Runnable{
     final int pauseState=1;
 	
 	
-	public Panel() {
+	public Window() {
 		this.setPreferredSize(new Dimension(screenWidth,screenHeight));
 		this.setBackground(Color.black);
 		this.setDoubleBuffered(true);
@@ -85,10 +85,10 @@ public class Panel extends JPanel implements Runnable{
 		}
 		}
 	}
+	UI ui;
 	private void start() {
-		
 		gameState=playState;
-		
+		ui=new UI(this);
 		player=new Player(this,keyH);
 		sceneObjects.add(player);
 		Apple apple=new Apple(200,400,player);
@@ -96,27 +96,38 @@ public class Panel extends JPanel implements Runnable{
 		Zombie z=new Zombie(400,400,player);
 		sceneObjects.add(z);
 	}
-
+	private boolean P_Ready=true;
 	//Logic Update
 	public void update() {
+			if(keyH.CtrlPressed&& keyH.P_Pressed) {
+				if(P_Ready) {
+				gameState=gameState==playState?pauseState:playState;
+				P_Ready=false;
+				}
+			}
+			else {
+				P_Ready=true;
+			}
+		
+		
 		if(gameState==playState) {
 			for(int i=0;i< sceneObjects.size();i++) {
 				sceneObjects.get(i).update();
 			}					
 		}		
 	} 
+	
 	//Rendering 
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		Graphics2D g2=(Graphics2D)g;
+		
 		scene.render(g);
 		
-		if(gameState==playState) {			
 			for(int i=0;i< sceneObjects.size();i++) {
 			sceneObjects.get(i).render(g2);
 			}
-		}
-	//	player.render(g2);
+			ui.render(g2);
 		g2.dispose();
 	}
 }

@@ -11,7 +11,7 @@ public class Game {
 		window.setResizable(false);
 		window.setTitle("2d");
 		
-		Panel panel=new Panel();
+		Window panel=new Window();
 		window.add(panel);
 		
 		window.pack();
