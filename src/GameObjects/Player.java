@@ -25,8 +25,8 @@ int dir=1;
 int flipX=0;
 int flipW=1;
 
-BufferedImage[] idleAnim;
 BufferedImage[] runAnim;
+BufferedImage[] attackAnim;
 Animation[] animations;
   public Player(Window p,KeyHandler h) {
 	 super();
@@ -51,16 +51,25 @@ Animation[] animations;
   }
   
   public void loadAnims() {
-	  idleAnim=new BufferedImage[1];
 	//  idleAnim[0]=image.getSubimage(0,0,16,30);
 	  runAnim=new BufferedImage[6];
-      for(int i=0;i<runAnim.length;i++) {
+	  attackAnim=new BufferedImage[2];
+     
+	  // updating idle sprites to the array
+	  for(int i=0;i<runAnim.length;i++) {
     	  runAnim[i]=image.getSubimage((i)*32, 0, 32, 32);
       }
+	  
+	  //updating running sprites to the array
+
+	  runAnim[0]=image.getSubimage(32,0*32, 32, 32); 
+	  runAnim[1]=image.getSubimage(64,0*32, 32, 32); 
+	  
+	  
       animations=new Animation[2];
       animations[0]=new Animation();
       animations[1]=new Animation();
-      animations[0].clip=idleAnim;
+      animations[0].clip=attackAnim;
       animations[1].clip=runAnim;
   }
   

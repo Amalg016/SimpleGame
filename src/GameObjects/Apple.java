@@ -18,7 +18,7 @@ public Apple(int x,int y,Player player) {
    this.player=player;
 
   
-  InputStream is=getClass().getResourceAsStream("/Images/Player/Scavengers_Spritesheet.png");
+  InputStream is=getClass().getResourceAsStream("/Images/Scavengers_Spritesheet.png");
      try{
     	 image=ImageIO.read(is);
      }catch(Exception e) {

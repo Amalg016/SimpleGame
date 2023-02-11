@@ -36,7 +36,7 @@ public class SceneManager {
    
 	public SceneManager() {
 	   levelSprites=new BufferedImage[8];
-	   InputStream is=getClass().getResourceAsStream("/Images/Player/Scavengers_Spritesheet.png");
+	   InputStream is=getClass().getResourceAsStream("/Images/Scavengers_Spritesheet.png");
 	     try{
 	    	 image=ImageIO.read(is);
 	     }catch(Exception e) {

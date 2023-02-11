@@ -33,7 +33,7 @@ public class Zombie extends GameObject {
 
 	
 	public void loadImage() {
-		 InputStream is=getClass().getResourceAsStream("/Images/Player/Scavengers_Spritesheet.png");
+		 InputStream is=getClass().getResourceAsStream("/Images/Scavengers_Spritesheet.png");
 	     try{
 	    	 image=ImageIO.read(is);
 	     }catch(Exception e) {
