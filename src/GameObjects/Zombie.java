@@ -64,41 +64,40 @@ public class Zombie extends GameObject implements IDamageable{
 	 
 	@Override
 	public void update() {
-		updateHitbox();
 		super.update();
+		updateAnim();
 		//ChooseDir();
 		//updatePos();
-		updateAnim();
 	}
 		
 	
-	
-     void updatePos() {
-		
-		int ySpeed=0,xSpeed=0;
-		switch(direction) {
-		case left:
-			xSpeed+=speed;
-			flipX=width;
-			flipW=-1;   
-			break;
-		case right:
-			xSpeed-=speed;
-			flipX=0;
-			flipW=1;
-			break;
-		case up:
-			ySpeed-=speed;
-			break;
-		case down:
-			ySpeed+=speed;
-			break;         
-		}
-		if(canMoveHere(x+xSpeed,y+ySpeed)) { 
-			  this.x+=xSpeed;                  
-			  this.y+=ySpeed;                  	 
-		}
-	}
+//	
+//     void updatePos() {
+//		
+//		int ySpeed=0,xSpeed=0;
+//		switch(direction) {
+//		case left:
+//			xSpeed+=speed;
+//			flipX=width;
+//			flipW=-1;   
+//			break;
+//		case right:
+//			xSpeed-=speed;
+//			flipX=0;
+//			flipW=1;
+//			break;
+//		case up:
+//			ySpeed-=speed;
+//			break;
+//		case down:
+//			ySpeed+=speed;
+//			break;         
+//		}
+//		if(canMoveHere(x+xSpeed,y+ySpeed)) { 
+//			  this.x+=xSpeed;                  
+//			  this.y+=ySpeed;                  	 
+//		}
+//	}
 
 
 	void updateAnim(){
@@ -135,7 +134,7 @@ public class Zombie extends GameObject implements IDamageable{
 	     }
 		
 		//g.drawImage(image, x+flipX, y, width*flipW, height, null);
-	    //g.drawRect(hitbox.x-player.x+player.screenX, hitbox.y-player.y+player.screenY, 30, 30);
+	    g.drawRect(hitbox.x-player.x+player.screenX, hitbox.y-player.y+player.screenY, 30, 30);
 	}
 	
 	@Override

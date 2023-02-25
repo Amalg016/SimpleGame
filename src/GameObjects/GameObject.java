@@ -24,7 +24,7 @@ public class GameObject {
 	public int width=30,height=30;
 	public BufferedImage image;
 	//int direction=1;
-	public enum Direction{left,right,up,down};
+	public enum Direction{left,right,up,down,nulll};
 	public Direction direction=Direction.right;
   
 	Window window;
@@ -74,8 +74,8 @@ public class GameObject {
 	  	ChooseDir();
        // checkCollision(); 
 	  	
-	  	if(collisionOn==false) {
-	  			  switch(direction) {
+	  if(onPath) {
+	  	switch(direction) {
 	  			  case up: y-=speed;break;
 	  			  case down: y+=speed;break;
 	  			  case left: 
@@ -88,9 +88,31 @@ public class GameObject {
 	  				  flipX=0;
 	  				  flipW=-1;
 	  				  break;
+	  			  case nulll:
+	  				  break;
 	  			  }
-	  		  }
-	  	
+	  }	
+//	  else {
+//		  checkCollision();
+//		if(collisionOn) {
+//		  	switch(direction) {
+//			  case up: y-=speed;break;
+//			  case down: y+=speed;break;
+//			  case left: 
+//				  x-=speed;
+//				  flipX=width;
+//				  flipW=1;   
+//				  break;
+//			  case right:
+//				  x+=speed;
+//				  flipX=0;
+//				  flipW=-1;
+//				  break;
+//			  }
+//			
+//		}
+//	  }
+	  	updateHitbox();	
 	}
 	public void checkCollision() {
 		collisionOn=false;
@@ -107,8 +129,10 @@ public class GameObject {
 	private void ChooseDir() {
 		
 		if(onPath==true) {
-			int goalCol=8;
-			int goalRow=3;
+			int goalCol=Window.player.x/30;
+			int goalRow=Window.player.y/30;
+//			int goalCol=15;
+//			int goalRow=3;
 		    searchPath(goalCol,goalRow);   
 		}
 		else {
@@ -137,74 +161,116 @@ public class GameObject {
 		}
 	}
 	public void searchPath(int goalCol,int goalRow) {
-		int startCol=(x)/30;
-		int startRow=(y)/30;
+		int startCol=(int)x/30;
+		int startRow=(int)y/30;
 		
-		//System.out.println(TileManager.map.length);
 		window.pFinder.setNode(startCol, startRow, goalCol, goalRow, this);
-		if(window.pFinder.search()==true) {
+		if(window.pFinder.search()) {
 			int nextX=window.pFinder.pathList.get(0).col*30;
 			int nextY=window.pFinder.pathList.get(0).row*30;
 		
-		    int enLeftX=x;
-		    int enRightX=x+hitbox.width;
-		    int enTopY=y;
-		    int enBottomY=y+hitbox.height;
-		    
-		    if(enTopY>nextY&&enLeftX>=nextX &&enRightX<nextX+30) {
-		    	direction=Direction.up;
-		    }
-		    else if(enTopY<nextY&&enLeftX>=nextX&&enRightX<nextX+30) {
-		    	direction=Direction.down;
-		    }
-		    else if(enTopY>nextY&&enBottomY<nextY+30) {
-		   
-		    	if(enLeftX>nextX) {
-		    		direction=Direction.left;
-		    	}
-		    	if(enLeftX<nextX) {
-		    		direction=Direction.right;
-		    	}
-		    }
-		    else if(enTopY>nextY&&enLeftX>nextX) {
-		    	direction=Direction.up;
-		    	//checkCollision();
-		    	checkCollision();
-		    	//System.out.println(collisionOn);
-		    	if(collisionOn) { 	
-		    		direction=Direction.left;
-		    	}
-		    }
-		    else if(enTopY>nextY&&enLeftX<nextX) {
-		    	direction=Direction.up;
-
-		    	checkCollision();
-		    	if(collisionOn) { 			
-		    		direction=Direction.right;
-		    	}
-		    }
-		    else if(enTopY<nextY&&enLeftX>nextX) {
-		    	direction=Direction.down;
-		    	//checkCollision();
-		    	checkCollision();
-		    	if(collisionOn) { 	
-		    		direction=Direction.left;
-		    	}
-		    }
-		    else if(enTopY<nextY&&enLeftX<nextX) {
-		    	direction=Direction.down;
-		    	//checkCollision();
-		    	checkCollision();
-		    	if(collisionOn) { 	
-		    		direction=Direction.right;
-		    	}
-		    }
+			
+	       
+			
+	        	if(nextX>x&&nextY==y) {
+	        		direction=Direction.right;
+	        	}
+	        	else if(nextX<x&&nextY==y) {
+	        		direction=Direction.left;
+	        	}	        	
+	        	else if(nextY>y&&nextX==x) {
+	        		direction=Direction.down;
+	        	}
+	        	else if(nextY<y&&nextX==x) {
+	        		direction=Direction.up;
+	        	}
+	        	else if(direction==Direction.left||direction==Direction.right&&Math.abs(nextY-y)<30){
+	        		if(nextX>x) {
+		        		direction=Direction.right;
+		        	}
+		        	else if(nextX<x) {
+		        		direction=Direction.left;
+		        	}	        	
+		        		
+	        	}
+	        	else if(direction==Direction.up||direction==Direction.down&&Math.abs(nextX-x)<30){
+	        		if(nextY>y) {
+		        		direction=Direction.down;
+		        	}
+		        	else if(nextY<y) {
+		        		direction=Direction.up;
+		        	}	        	
+	        	}
+	        	
+//	          if(nextX==x&&nextY==y) {
+//	        		onPath=false;
+//	        		System.out.println(nextX+"<"+y);
+//	        	}
+//	           if((int)x/30==goalCol&& (int)y/30==goalRow) {
+//			    	onPath=false;
+//	        		System.out.println(nextX+"<"+y);
+//	        	}
+			
+			
+//		    int enLeftX=x;
+//		    int enRightX=x+hitbox.width;
+//		    int enTopY=y;
+//		    int enBottomY=y+hitbox.height;
+//		    
+//		    if(enTopY>nextY&&enLeftX>=nextX &&enRightX<nextX+30) {
+//		    	direction=Direction.up;
+//		    }
+//		    else if(enTopY<nextY&&enLeftX>=nextX&&enRightX<nextX+30) {
+//		    	direction=Direction.down;
+//		    }
+//		    else if(enTopY>=nextY&&enBottomY<nextY+30) {
+//		   
+//		    	if(enLeftX>nextX) {
+//		    		direction=Direction.left;
+//		    	}
+//		    	if(enLeftX<nextX) {
+//		    		direction=Direction.right;
+//		    	}
+//		    }
+//		    else if(enTopY>nextY&&enLeftX>nextX) {
+//		    	direction=Direction.up;
+//		    	checkCollision();
+//		    	//System.out.println(collisionOn);
+//		    	if(collisionOn) { 
+//		    		direction=Direction.left;
+//		    	}
+//		    }
+//		    else if(enTopY>nextY&&enLeftX<nextX) {
+//		    	direction=Direction.up;
+//
+//		    	checkCollision();
+//		    	if(collisionOn) { 			
+//		    		direction=Direction.right;
+//		    	}
+//		    }
+//		    else if(enTopY<nextY&&enLeftX>nextX) {
+//		    	direction=Direction.down;
+//		    	checkCollision();
+//		    	if(collisionOn) { 	
+//		    		direction=Direction.left;
+//		    	}
+//		    }
+//		    else if(enTopY<nextY&&enLeftX<nextX) {
+//		    	direction=Direction.down;
+//		    	checkCollision();
+//		    	if(collisionOn) { 	
+//		    		direction=Direction.right;
+//		    	}
+//		    }
 		    
 		    int nextCol=window.pFinder.pathList.get(0).col;
 		    int nextRow=window.pFinder.pathList.get(0).row;
 		    if(nextCol==goalCol&&nextRow==goalRow) {
-		    	onPath=false;
+//		    	onPath=false;
+		    	direction=Direction.nulll;
 		    }
+		    
+		    
 		}
 	}
 	

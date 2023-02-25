@@ -93,9 +93,7 @@ public class Pathfinder {
 					node[col][row].solid=true;
 				}
 				
-				//interactable
-				//for (int i =0;i< )
-	           
+				
 				getCost(node[col][row]);
 				
 //				col++;

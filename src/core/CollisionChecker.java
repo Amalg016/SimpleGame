@@ -58,6 +58,7 @@ public class CollisionChecker {
     	   break;
        }
    }
+   
    //NPC
    public int checkEntity(GameObject entity,GameObject[] target) {
 	   int index=999;

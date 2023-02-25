@@ -23,7 +23,7 @@ public class Window extends JPanel implements Runnable{
 	public final static int maxScreenCol=25;
 	public final static int maxScreenRow=19;
 	public static final int screenWidth=tileSize*25;
-	public static final int screenHeight=tileSize*19;			
+	public static final int screenHeight=tileSize*25;			
     	
 	
 	int FPS=60;
@@ -43,7 +43,7 @@ public class Window extends JPanel implements Runnable{
 	public static ArrayList<IDamageable> enemyObjects=new ArrayList<IDamageable>();
 	
 	UI ui;
-	public Player player;
+	public static Player player;
 	
 	public int gameState=0;
     public final int titleState=0;
@@ -101,7 +101,7 @@ public class Window extends JPanel implements Runnable{
 		//sceneObjects.add(player);
 		Apple apple=new Apple(200,400,this);
 		sceneObjects.add(apple);
-		Zombie z=new Zombie(400,400,this);
+		Zombie z=new Zombie(390,390,this);
 		sceneObjects.add(z);
 	//	Zombie k=new Zombie(550,100,this);
 	//	sceneObjects.add(k);
