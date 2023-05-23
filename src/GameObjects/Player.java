@@ -169,7 +169,7 @@ public class Player extends GameObject implements IDamageable{
 	  collisionOn=false;
 	  window.cCheck.checkTile(this);
 
-	  window.cCheck.checkEntity(this,Window.sceneObjects.toArray());
+	  //window.cCheck.checkEntity(this,Window.sceneObjects.toArray());
 	  
 	  if(collisionOn==false) {
 		  switch(direction) {
