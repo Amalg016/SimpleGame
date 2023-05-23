@@ -10,7 +10,11 @@ import java.io.InputStreamReader;
 import javax.imageio.ImageIO;
 
 public class TileManager {
+<<<<<<< HEAD
 boolean loaded=false;
+=======
+
+>>>>>>> 93556c48c2d3e38a5fb35b97ef3135327b53e195
 	   public static int[][] map ;
 //           {
 //            {  1 , 1 , 1 , 1 , 1 , 1 , 1 , 1 , 1 , 1 , 1 ,1,1,1,1,1,1,1,1,1,1,1,1,7,1,},
@@ -34,11 +38,16 @@ boolean loaded=false;
 //            {  1 , 1 , 1 , 1 , 1 , 1 , 1 , 1 , 1 , 1 , 1 ,1,1,1,1,1,1,1,1,1,1,1,1,1,1,}
 //      };
 //	BufferedImage[] levelSprites;
+<<<<<<< HEAD
   // public Tile[] tiles;
+=======
+   public Tile[] tiles;
+>>>>>>> 93556c48c2d3e38a5fb35b97ef3135327b53e195
 	BufferedImage image;
    Window window;
    boolean drawPath=true;
    
+<<<<<<< HEAD
 	public TileManager(Window window)
 	{
 	  this.window=window;
@@ -58,6 +67,28 @@ boolean loaded=false;
 	}
    
 	Tile[][] tiles;
+=======
+	public TileManager(Window window) {
+	  this.window=window;
+	  map=new int[Window.maxScreenCol][Window.maxScreenRow];
+	  loadMap("/Assets/Maps/map1.txt");	
+	  tiles=new Tile[8];
+	   image=AssetPool.getSpritesheet("spritesheet1");
+	   
+	   tiles[0]=new Tile();
+	   tiles[0].image=image.getSubimage(30, 32*4, 30, 32);
+	     
+	     for(int i=1;i<7;i++) {	    	 
+	    	tiles[i]=new Tile(); 
+	    	 tiles[i].image=image.getSubimage((i)*32, 3*32, 32, 32);	     
+	     }
+	     tiles[1].collision=true;
+	     tiles[7]=new Tile();
+	     tiles[7].image=image.getSubimage(4*32, 2*32, 32, 32);
+	}
+   
+	
+>>>>>>> 93556c48c2d3e38a5fb35b97ef3135327b53e195
 	public void loadMap(String file) {
 		try {
 			InputStream is=getClass().getResourceAsStream(file);
@@ -65,14 +96,19 @@ boolean loaded=false;
 			
 			int col =0;
 			int row=0;
+<<<<<<< HEAD
 			tiles=new Tile[Window.maxScreenCol][Window.maxScreenRow];
 
+=======
+			
+>>>>>>> 93556c48c2d3e38a5fb35b97ef3135327b53e195
 			while(col<window.maxScreenCol&&row<window.maxScreenRow) {
 				String line=br.readLine();
 				while(col<window.maxScreenCol) {
 					String numbers[]=line.split(" ");
 				    int num=Integer.parseInt(numbers[col]);
 				    map[col][row]=num;
+<<<<<<< HEAD
 				    tiles[col][row]=new Tile();
 				    if(num==1) {
 				    	tiles[col][row].collision=true;	
@@ -93,11 +129,20 @@ boolean loaded=false;
 					//	tiles[col][row].image=image.getSubimage(4*32, 2*32, 32, 32);
 					col=0;
 					
+=======
+				    col++;
+				}
+				if(col==window.maxScreenCol) {
+					col=0;
+>>>>>>> 93556c48c2d3e38a5fb35b97ef3135327b53e195
 					row++;
 				}
 			}
 			br.close();
+<<<<<<< HEAD
 			loaded=true;
+=======
+>>>>>>> 93556c48c2d3e38a5fb35b97ef3135327b53e195
 		}
 		catch(Exception e) {
 		e.printStackTrace();	
@@ -128,7 +173,11 @@ boolean loaded=false;
 //               }
 //           }
 //           
+<<<<<<< HEAD
            if(!loaded)return;
+=======
+           
+>>>>>>> 93556c48c2d3e38a5fb35b97ef3135327b53e195
            int col =0;
 			int row=0;
 			
@@ -146,7 +195,11 @@ boolean loaded=false;
 	        		  worldY+30>window.player.y-window.player.screenY&&
 	        		  worldY-30<window.player.y+window.player.screenY
 	        		  ) {
+<<<<<<< HEAD
 	                	  g.drawImage(tiles[col][row].image, screenX, screenY, 30, 30,  null); 
+=======
+	                	  g.drawImage(tiles[map[col][row]].image, screenX, screenY, 30, 30,  null); 
+>>>>>>> 93556c48c2d3e38a5fb35b97ef3135327b53e195
 	                  }
 				    col++;
 				}

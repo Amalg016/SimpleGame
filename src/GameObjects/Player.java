@@ -22,7 +22,8 @@ public class Player extends GameObject implements IDamageable{
 
 	Window p;
 	KeyHandler keyH;
-
+    public int screenX,screenY;
+	
 //Animation related
 	int state=0;
 	final int idle=0;
@@ -35,31 +36,39 @@ public class Player extends GameObject implements IDamageable{
 
 //direction related
     int dir=1;
-    int flipX=0;
-    int flipW=1;
 
 //Combat related
+<<<<<<< HEAD
 <<<<<<< Updated upstream
     Rectangle2D.Float attackbox;
 =======
     Vector attackbox;
 >>>>>>> Stashed changes
+=======
+    Rectangle attackbox;
+>>>>>>> 93556c48c2d3e38a5fb35b97ef3135327b53e195
 
 //Health
     final int maxLives=5;    
     public int currentLives=3;
 
   public Player(Window p,KeyHandler h) {
-	 super();
+	 super(p);
 	  this.p=p;
 	 this.keyH=h;
+	 hitboxDefaultX=hitbox.x;
+	 hitboxDefaultY=hitbox.y;
+	 
 	 start();
   }
   public void start() {
-	  x=60;
+	  x=300;
 	  y=500;
+	  screenX=Window.screenWidth/2  -15;
+	  screenY=Window.screenHeight/2 -15;
 	  speed=2;
-	  
+	hitbox.height=20;
+	hitbox.width=20;
 	image=AssetPool.getSpritesheet("spritesheet1");       
      loadAnims();
      loadAttackBox();
@@ -67,11 +76,15 @@ public class Player extends GameObject implements IDamageable{
   
   
   public void loadAttackBox() {
+<<<<<<< HEAD
 <<<<<<< Updated upstream
 	  	 attackbox=new Rectangle2D.Float(x,y,15,30); 
 =======
 	  	 attackbox=new Vector(x,y,15,30); 
 >>>>>>> Stashed changes
+=======
+	  	 attackbox=new Rectangle(x,y,15,30); 
+>>>>>>> 93556c48c2d3e38a5fb35b97ef3135327b53e195
   }
   
   
@@ -116,51 +129,58 @@ public class Player extends GameObject implements IDamageable{
 		  for(int i =0;i<Window.enemyObjects.size();i++) {
 			  if(attackbox.intersects(Window.enemyObjects.get(i).getHitbox())) {
 				  Window.enemyObjects.get(i).TakeDamage(10);
-			  }
-			  
+			  }			  
 		  }
 		}
   }
   
   public void updateAttackBox(){
 	  if(dir==1) {
-		  attackbox.x=hitbox.x+hitbox.width;
+		  attackbox.x=x+hitbox.width;
 	  }else {
-		  attackbox.x=hitbox.x-hitbox.width+15;
+		  attackbox.x=x-hitbox.width+15;
 	  }
-	  attackbox.y=hitbox.y;
+	  attackbox.y=y;
   }
   
   //Updating position based on input
+  
   public void updatePos() {
 	   if(!keyH.upPressed && !keyH.downPressed && !keyH.leftPressed && !keyH.rightPressed) {
 		return;
 	   }
 	  int xSpeed=0,ySpeed=0;
 	  if(keyH.upPressed&&!keyH.downPressed) {
-			ySpeed=-speed;
+		  direction=Direction.up;	
+		//  ySpeed=-speed;
 		}
 	  if(keyH.downPressed&&!keyH.upPressed) {
-			ySpeed=speed;
+		  direction=Direction.down;
+		 // ySpeed=speed;
 		}
 	  if(keyH.leftPressed&&!keyH.rightPressed) {
-			xSpeed=-speed;
+		  direction=Direction.left;
+		  //xSpeed=-speed;
 			dir=-1;
 			flipX=width;
 			flipW=-1;
 		}
 	  if(keyH.rightPressed&&!keyH.leftPressed) {
-			xSpeed=speed;
+		  direction=Direction.right;
+		   // xSpeed=speed;
 			dir=1;
 			flipX=0;
 			flipW=1;
 		}
+<<<<<<< HEAD
 <<<<<<< Updated upstream
 	  if(canMoveHere(x+xSpeed,y+ySpeed)) {
 		  this.x+=xSpeed;
 		  this.y+=ySpeed;
 	  }	  
 =======
+=======
+>>>>>>> 93556c48c2d3e38a5fb35b97ef3135327b53e195
 //	  if(canMoveHere(x+xSpeed,y+ySpeed)) {
 //		  this.x+=xSpeed;
 //		  this.y+=ySpeed;
@@ -169,7 +189,11 @@ public class Player extends GameObject implements IDamageable{
 	  collisionOn=false;
 	  window.cCheck.checkTile(this);
 
+<<<<<<< HEAD
 	  window.cCheck.checkEntity(this,Window.sceneObjects.toArray());
+=======
+	  int npcIndex=window.cCheck.checkEntity(this,Window.sceneObjects.toArray());
+>>>>>>> 93556c48c2d3e38a5fb35b97ef3135327b53e195
 	  
 	  if(collisionOn==false) {
 		  switch(direction) {
@@ -179,7 +203,10 @@ public class Player extends GameObject implements IDamageable{
 		  case right: x+=speed;break;
 		  }
 	  }
+<<<<<<< HEAD
 >>>>>>> Stashed changes
+=======
+>>>>>>> 93556c48c2d3e38a5fb35b97ef3135327b53e195
   }
   
   
@@ -211,21 +238,29 @@ public class Player extends GameObject implements IDamageable{
 		//g2.setColor(Color.white);
 		//g2.fillRect(x,y, p.tileSize,p.tileSize);	
         
-        g2.drawImage(image,hitbox.x+flipX,hitbox.y,width*flipW,height,null);
-       DrawAttackbox(g2);
+//        g2.drawImage(image,hitbox.x+flipX,hitbox.y,width*flipW,height,null);
+	    g2.drawImage(image,screenX+flipX,screenY,width*flipW,height,null); 
+	     DrawAttackbox(g2);
         // drawHitbox(g2);
   }
   
   public void DrawAttackbox(Graphics2D g2) {
+<<<<<<< HEAD
 <<<<<<< Updated upstream
 	  g2.setColor(Color.blue);
 	  g2.drawRect((int)attackbox.x, (int)attackbox.y,(int) attackbox.width,(int) attackbox.height);
 =======
+=======
+>>>>>>> 93556c48c2d3e38a5fb35b97ef3135327b53e195
 	  g2.setColor(Color.blue);	  
 	   int sX=(int)attackbox.x -x+screenX;
 	   int sY=(int)attackbox.y -y+screenY;             	  
 	   g2.drawRect(sX, sY,(int) attackbox.width,(int) attackbox.height);
+<<<<<<< HEAD
 >>>>>>> Stashed changes
+=======
+     
+>>>>>>> 93556c48c2d3e38a5fb35b97ef3135327b53e195
   }
  
   @Override
