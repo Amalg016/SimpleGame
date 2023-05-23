@@ -45,17 +45,11 @@ public class Pathfinder {
 		node[col][row].solid=false;	
 	
 		col++;
-<<<<<<< HEAD
 		  if(col==Window.maxScreenCol) {
 			col=0;
 			row++;
 		  }	
-=======
-		if(col==Window.maxScreenCol) {
-			col=0;
-			row++;
-		}	
->>>>>>> 93556c48c2d3e38a5fb35b97ef3135327b53e195
+
 		}	
 		
 		openList.clear();
@@ -93,17 +87,18 @@ public class Pathfinder {
 //	
 //		}
 //		
-		for(int col=0;col<Window.maxScreenCol;col++) {
-			for(int row=0;row<Window.maxScreenRow;row++) {
+		for(int col=0;col<Window.maxScreenCol;col++)
+		{
+			for(int row=0;row<Window.maxScreenRow;row++)
+			{
 				int tileNum=TileManager.map[col][row];
 				if(tileNum==1) {
 					node[col][row].solid=true;
-<<<<<<< HEAD
+
 				}				
-=======
-				}
-				
->>>>>>> 93556c48c2d3e38a5fb35b97ef3135327b53e195
+
+			
+
 				
 				getCost(node[col][row]);
 				
@@ -112,10 +107,14 @@ public class Pathfinder {
 //					col=0;
 //					row++;
 //				}
-			}	
-		}
+			
 		
+			}
+	
+		}	
 	}
+		
+	
 
 	private void getCost(Node node) {
 		//Gcost

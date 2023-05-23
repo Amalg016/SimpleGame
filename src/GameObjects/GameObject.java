@@ -6,15 +6,8 @@ import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.util.Random;
 
-<<<<<<< HEAD
-<<<<<<< Updated upstream
-=======
 import Components.Vector;
 import GameObjects.GameObject.Direction;
->>>>>>> Stashed changes
-=======
-import GameObjects.GameObject.Direction;
->>>>>>> 93556c48c2d3e38a5fb35b97ef3135327b53e195
 import core.Window;
 import core.TileManager;
 
@@ -22,34 +15,9 @@ public class GameObject {
 
 	public int x,y;
 	public int speed;
-<<<<<<< HEAD
-<<<<<<< Updated upstream
-	
-	protected Rectangle hitbox;
-=======
-	public int hitboxDefaultX,hitboxDefaultY;
-	//direction variables
-		int flipX=0;
-		int flipW=1;
-	   
-	public boolean collisionOn=false;
-	public Rectangle hitbox;
->>>>>>> 93556c48c2d3e38a5fb35b97ef3135327b53e195
-	public int width=30,height=30;
-	public BufferedImage image;
-	//int direction=1;
-	public enum Direction{left,right,up,down,nulll};
-	public Direction direction=Direction.right;
-  
-	Window window;
-	public boolean onPath=false;
-	int actionCounter=0;
 
-	
-	public GameObject(Window window){
-		this.window=window;
-		hitbox=new Rectangle(x,y,width,height);
-=======
+
+
 	public int hitboxDefaultX,hitboxDefaultY;
 	//direction variables
 		int flipX=0;
@@ -71,7 +39,6 @@ public class GameObject {
 	public GameObject(Window window){
 		this.window=window;
 		hitbox=new Vector(x,y,width,height);
->>>>>>> Stashed changes
 	}
 	protected void updateHitbox() {
 		hitbox.x=x;
@@ -100,21 +67,12 @@ public class GameObject {
 		return false;
 	}
 	public void update() {
-<<<<<<< HEAD
-<<<<<<< Updated upstream
-		
-=======
+
        // checkCollision(); 
 	  	collisionOn=false;
 	  	window.cCheck.checkEntity(this,Window.sceneObjects.toArray());
 	  if(onPath&&!collisionOn) 
 	  {
-=======
-	  	ChooseDir();
-       // checkCollision(); 
-	  	
-	  if(onPath) {
->>>>>>> 93556c48c2d3e38a5fb35b97ef3135327b53e195
 	  	switch(direction) {
 	  			  case up: y-=speed;break;
 	  			  case down: y+=speed;break;
@@ -132,11 +90,10 @@ public class GameObject {
 	  				  break;
 	  			  }
 	  }	
-<<<<<<< HEAD
+
 	  ChooseDir();
 	  
-=======
->>>>>>> 93556c48c2d3e38a5fb35b97ef3135327b53e195
+
 //	  else {
 //		  checkCollision();
 //		if(collisionOn) {
@@ -164,10 +121,6 @@ public class GameObject {
 	  	window.cCheck.checkTile(this);
 	  	//	window.cCheck.checkObject(this,false);
 	  	window.cCheck.checkPlayer(this);	 
-<<<<<<< HEAD
->>>>>>> Stashed changes
-=======
->>>>>>> 93556c48c2d3e38a5fb35b97ef3135327b53e195
 	}
 	public void render(Graphics2D g) {
 		
@@ -175,11 +128,7 @@ public class GameObject {
 	protected void Destroy() {
 		Window.sceneObjects.remove(this);
 	}
-<<<<<<< HEAD
-<<<<<<< Updated upstream
-=======
-=======
->>>>>>> 93556c48c2d3e38a5fb35b97ef3135327b53e195
+
 	private void ChooseDir() {
 		
 		if(onPath==true) {
@@ -217,11 +166,9 @@ public class GameObject {
 	public void searchPath(int goalCol,int goalRow) {
 		int startCol=(int)x/30;
 		int startRow=(int)y/30;
-<<<<<<< HEAD
+
 		//if(startCol==goalCol&& startRow==goalRow) return;
-=======
-		
->>>>>>> 93556c48c2d3e38a5fb35b97ef3135327b53e195
+
 		window.pFinder.setNode(startCol, startRow, goalCol, goalRow, this);
 		if(window.pFinder.search()) {
 			int nextX=window.pFinder.pathList.get(0).col*30;
@@ -242,11 +189,8 @@ public class GameObject {
 	        	else if(nextY<y&&nextX==x) {
 	        		direction=Direction.up;
 	        	}
-<<<<<<< HEAD
 	        	else if(direction==Direction.left||direction==Direction.right||direction==Direction.nulll &&Math.abs(nextY-y)<30){
-=======
-	        	else if(direction==Direction.left||direction==Direction.right&&Math.abs(nextY-y)<30){
->>>>>>> 93556c48c2d3e38a5fb35b97ef3135327b53e195
+
 	        		if(nextX>x) {
 		        		direction=Direction.right;
 		        	}
@@ -255,11 +199,8 @@ public class GameObject {
 		        	}	        	
 		        		
 	        	}
-<<<<<<< HEAD
 	        	else if(direction==Direction.up||direction==Direction.down||direction==Direction.nulll&&Math.abs(nextX-x)<30){
-=======
-	        	else if(direction==Direction.up||direction==Direction.down&&Math.abs(nextX-x)<30){
->>>>>>> 93556c48c2d3e38a5fb35b97ef3135327b53e195
+
 	        		if(nextY>y) {
 		        		direction=Direction.down;
 		        	}
@@ -332,24 +273,12 @@ public class GameObject {
 		    int nextCol=window.pFinder.pathList.get(0).col;
 		    int nextRow=window.pFinder.pathList.get(0).row;
 		    if(nextCol==goalCol&&nextRow==goalRow) {
-<<<<<<< HEAD
 	//	    	onPath=false;
 		    	direction=Direction.nulll;
 		    }
 		    		    
-=======
-//		    	onPath=false;
-		    	direction=Direction.nulll;
-		    }
-		    
-		    
->>>>>>> 93556c48c2d3e38a5fb35b97ef3135327b53e195
+
 		}
 	}
 	
-	
-<<<<<<< HEAD
->>>>>>> Stashed changes
-=======
->>>>>>> 93556c48c2d3e38a5fb35b97ef3135327b53e195
 }

@@ -38,15 +38,7 @@ public class Player extends GameObject implements IDamageable{
     int dir=1;
 
 //Combat related
-<<<<<<< HEAD
-<<<<<<< Updated upstream
-    Rectangle2D.Float attackbox;
-=======
     Vector attackbox;
->>>>>>> Stashed changes
-=======
-    Rectangle attackbox;
->>>>>>> 93556c48c2d3e38a5fb35b97ef3135327b53e195
 
 //Health
     final int maxLives=5;    
@@ -76,15 +68,10 @@ public class Player extends GameObject implements IDamageable{
   
   
   public void loadAttackBox() {
-<<<<<<< HEAD
-<<<<<<< Updated upstream
-	  	 attackbox=new Rectangle2D.Float(x,y,15,30); 
-=======
+
 	  	 attackbox=new Vector(x,y,15,30); 
->>>>>>> Stashed changes
-=======
-	  	 attackbox=new Rectangle(x,y,15,30); 
->>>>>>> 93556c48c2d3e38a5fb35b97ef3135327b53e195
+
+	
   }
   
   
@@ -172,15 +159,8 @@ public class Player extends GameObject implements IDamageable{
 			flipX=0;
 			flipW=1;
 		}
-<<<<<<< HEAD
-<<<<<<< Updated upstream
-	  if(canMoveHere(x+xSpeed,y+ySpeed)) {
-		  this.x+=xSpeed;
-		  this.y+=ySpeed;
-	  }	  
-=======
-=======
->>>>>>> 93556c48c2d3e38a5fb35b97ef3135327b53e195
+
+
 //	  if(canMoveHere(x+xSpeed,y+ySpeed)) {
 //		  this.x+=xSpeed;
 //		  this.y+=ySpeed;
@@ -189,11 +169,7 @@ public class Player extends GameObject implements IDamageable{
 	  collisionOn=false;
 	  window.cCheck.checkTile(this);
 
-<<<<<<< HEAD
 	  window.cCheck.checkEntity(this,Window.sceneObjects.toArray());
-=======
-	  int npcIndex=window.cCheck.checkEntity(this,Window.sceneObjects.toArray());
->>>>>>> 93556c48c2d3e38a5fb35b97ef3135327b53e195
 	  
 	  if(collisionOn==false) {
 		  switch(direction) {
@@ -203,10 +179,7 @@ public class Player extends GameObject implements IDamageable{
 		  case right: x+=speed;break;
 		  }
 	  }
-<<<<<<< HEAD
->>>>>>> Stashed changes
-=======
->>>>>>> 93556c48c2d3e38a5fb35b97ef3135327b53e195
+
   }
   
   
@@ -245,22 +218,14 @@ public class Player extends GameObject implements IDamageable{
   }
   
   public void DrawAttackbox(Graphics2D g2) {
-<<<<<<< HEAD
-<<<<<<< Updated upstream
-	  g2.setColor(Color.blue);
-	  g2.drawRect((int)attackbox.x, (int)attackbox.y,(int) attackbox.width,(int) attackbox.height);
-=======
-=======
->>>>>>> 93556c48c2d3e38a5fb35b97ef3135327b53e195
+//g2.setColor(Color.blue);
+//	  g2.drawRect((int)attackbox.x, (int)attackbox.y,(int) attackbox.width,(int) attackbox.height);
+
 	  g2.setColor(Color.blue);	  
 	   int sX=(int)attackbox.x -x+screenX;
 	   int sY=(int)attackbox.y -y+screenY;             	  
 	   g2.drawRect(sX, sY,(int) attackbox.width,(int) attackbox.height);
-<<<<<<< HEAD
->>>>>>> Stashed changes
-=======
-     
->>>>>>> 93556c48c2d3e38a5fb35b97ef3135327b53e195
+
   }
  
   @Override

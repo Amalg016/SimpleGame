@@ -98,31 +98,17 @@ public class Window extends JPanel implements Runnable{
 		//gameState=playState;
 		ui=new UI(this);
 		player=new Player(this,keyH);
-		//sceneObjects.add(player);
-<<<<<<< HEAD
-<<<<<<< Updated upstream
-		Apple apple=new Apple(200,400,player);
-=======
+
 		Apple apple=new Apple(200,400,this);
 		apple.trigger=true;
->>>>>>> Stashed changes
-=======
-		Apple apple=new Apple(200,400,this);
->>>>>>> 93556c48c2d3e38a5fb35b97ef3135327b53e195
+
 		sceneObjects.add(apple);
 		Zombie z=new Zombie(390,390,this);
 		sceneObjects.add(z);
-<<<<<<< HEAD
-<<<<<<< Updated upstream
-		Zombie k=new Zombie(550,100,player);
-=======
+
 		Zombie k=new Zombie(550,100,this);
->>>>>>> Stashed changes
 		sceneObjects.add(k);
-=======
-	//	Zombie k=new Zombie(550,100,this);
-	//	sceneObjects.add(k);
->>>>>>> 93556c48c2d3e38a5fb35b97ef3135327b53e195
+
 	}
 	private boolean P_Ready=true;
 	//Logic Update
