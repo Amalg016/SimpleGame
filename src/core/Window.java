@@ -13,18 +13,18 @@ import GameObjects.GameObject;
 import GameObjects.Player;
 import GameObjects.Zombie;
 import Interfaces.IDamageable;
+import ai.Pathfinder;
 
 public class Window extends JPanel implements Runnable{
 
-	final static int originalTileSize=16;
-	final static int scale=3;
+	final static int originalTileSize=30;
+	final static int scale=1;
 	public static final int tileSize = originalTileSize*scale;
-	final static int maxScreenCol=16;
-	final static int maxScreenRow=12;
-	public static final int screenWidth=tileSize*maxScreenCol;
-	public static final int screenHeight=tileSize*maxScreenRow;			
-    
-	
+	public final static int maxScreenCol=25;
+	public final static int maxScreenRow=19;
+	public static final int screenWidth=tileSize*25;
+	public static final int screenHeight=tileSize*25;			
+    	
 	
 	int FPS=60;
 	
@@ -35,14 +35,15 @@ public class Window extends JPanel implements Runnable{
 	Thread gameThread;
 	private AssetPool ap=new AssetPool();
 	KeyHandler keyH=new KeyHandler(this);
-	SceneManager scene=new SceneManager();
-	
+	public TileManager scene=new TileManager(this);
+	public CollisionChecker cCheck=new CollisionChecker(this);
+	public Pathfinder pFinder=new Pathfinder(this);
 	public static ArrayList<GameObject> sceneObjects=new ArrayList<GameObject>();
 	public static ArrayList<GameObject> interactables=new ArrayList<GameObject>();
 	public static ArrayList<IDamageable> enemyObjects=new ArrayList<IDamageable>();
 	
 	UI ui;
-	Player player;
+	public static Player player;
 	
 	public int gameState=0;
     public final int titleState=0;
@@ -98,12 +99,12 @@ public class Window extends JPanel implements Runnable{
 		ui=new UI(this);
 		player=new Player(this,keyH);
 		//sceneObjects.add(player);
-		Apple apple=new Apple(200,400,player);
+		Apple apple=new Apple(200,400,this);
 		sceneObjects.add(apple);
-		Zombie z=new Zombie(400,400,player);
+		Zombie z=new Zombie(390,390,this);
 		sceneObjects.add(z);
-		Zombie k=new Zombie(550,100,player);
-		sceneObjects.add(k);
+	//	Zombie k=new Zombie(550,100,this);
+	//	sceneObjects.add(k);
 	}
 	private boolean P_Ready=true;
 	//Logic Update

@@ -27,24 +27,22 @@ public class Zombie extends GameObject implements IDamageable{
 	int lastState=0;
 	
 	
-	//direction variables
-	int flipX=0;
-	int flipW=1;
-   
+	
 	//Health variables
 	final int maxHealth=20;  
 	int currentHealth;  
 	  
-	public Zombie(int x, int y,Player player) {
-		super();
+	public Zombie(int x, int y,Window window) {
+		super(window);
 		this.x=x;
 		this.y=y;
-		this.player=player;
+		this.player=window.player;
 		loadImage();
 		loadAnims();
 		Window.enemyObjects.add(this);
 		currentHealth=maxHealth;
 		speed=1;
+		onPath=true;
 	}
 	
 		
@@ -66,62 +64,40 @@ public class Zombie extends GameObject implements IDamageable{
 	 
 	@Override
 	public void update() {
-		updateHitbox();
-		updatePos();
+		super.update();
 		updateAnim();
+		//ChooseDir();
+		//updatePos();
 	}
-	public enum Direction{left,right,up,down};
-	Direction dir=Direction.right;
-	private void updatePos() {
 		
-		ChooseDir();
-		int ySpeed=0,xSpeed=0;
-		switch(dir) {
-		case left:
-			xSpeed+=speed;
-			flipX=width;
-			flipW=-1;   
-			break;
-		case right:
-			xSpeed-=speed;
-			flipX=0;
-			flipW=1;
-			break;
-		case up:
-			ySpeed-=speed;
-			break;
-		case down:
-			ySpeed+=speed;
-			break;         
-		}
-		if(canMoveHere(x+xSpeed,y+ySpeed)) { 
-			  this.x+=xSpeed;                  
-			  this.y+=ySpeed;                  	 
-		}
-	}
-int actionCounter=0;
-
-	private void ChooseDir() {
-		actionCounter++;
-		if(actionCounter==120) {
-			Random random=new Random();
-			int i=random.nextInt(100);
-			
-			if(i<=25) {
-				dir=Direction.up;
-			}
-			if(i<=50&&i>25) {
-				dir=Direction.down;
-			}
-			if(i<=75&&i>50) {
-				dir=Direction.left;
-			}
-			if(i<=100&&i>75) {
-				dir=Direction.right;
-			}
-			actionCounter=0;
-		}
-	}
+	
+//	
+//     void updatePos() {
+//		
+//		int ySpeed=0,xSpeed=0;
+//		switch(direction) {
+//		case left:
+//			xSpeed+=speed;
+//			flipX=width;
+//			flipW=-1;   
+//			break;
+//		case right:
+//			xSpeed-=speed;
+//			flipX=0;
+//			flipW=1;
+//			break;
+//		case up:
+//			ySpeed-=speed;
+//			break;
+//		case down:
+//			ySpeed+=speed;
+//			break;         
+//		}
+//		if(canMoveHere(x+xSpeed,y+ySpeed)) { 
+//			  this.x+=xSpeed;                  
+//			  this.y+=ySpeed;                  	 
+//		}
+//	}
 
 
 	void updateAnim(){
@@ -145,8 +121,20 @@ int actionCounter=0;
 	
 	@Override
 	public void render(Graphics2D g) {
-		g.drawImage(image, x+flipX, y, width*flipW, height, null);
-	    g.drawRect(hitbox.x, hitbox.y, 30, 30);
+				
+		  int screenX=x-player.x+player.screenX;
+		   int screenY=y-player.y+player.screenY;
+//		   g.drawImage(levelSprites[map[y][x]], x*30, (y+2)*30, 30, 30,  null); 
+	     if(x+30>player.x- player.screenX&&
+		  x-30<player.x+player.screenX&&
+		  y+30>player.y-player.screenY&&
+		  y-30<player.y+player.screenY
+		  ) {        	  
+		   g.drawImage(image, screenX-flipX+30, screenY, width*flipW, 30,  null); 
+	     }
+		
+		//g.drawImage(image, x+flipX, y, width*flipW, height, null);
+	    g.drawRect(hitbox.x-player.x+player.screenX, hitbox.y-player.y+player.screenY, 30, 30);
 	}
 	
 	@Override
