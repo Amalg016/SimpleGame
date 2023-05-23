@@ -9,6 +9,7 @@ import java.util.Random;
 import javax.imageio.ImageIO;
 
 import Components.Animation;
+import Components.Vector;
 import Interfaces.IDamageable;
 import core.AssetPool;
 import core.Time;
@@ -155,7 +156,7 @@ int actionCounter=0;
 		Window.enemyObjects.remove(this);
 	}
 	@Override
-	public Rectangle getHitbox() {
+	public Vector getHitbox() {
 		return hitbox;
 	}
 	//Health System

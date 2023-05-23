@@ -1,5 +1,6 @@
 package GameObjects;
 import core.Window;
+
 import core.Time;
 
 import java.awt.Color;
@@ -13,6 +14,7 @@ import java.io.InputStream;
 import javax.imageio.ImageIO;
 
 import Components.Animation;
+import Components.Vector;
 import Interfaces.IDamageable;
 import core.AssetPool;
 import core.KeyHandler;
@@ -37,7 +39,11 @@ public class Player extends GameObject implements IDamageable{
     int flipW=1;
 
 //Combat related
+<<<<<<< Updated upstream
     Rectangle2D.Float attackbox;
+=======
+    Vector attackbox;
+>>>>>>> Stashed changes
 
 //Health
     final int maxLives=5;    
@@ -61,7 +67,11 @@ public class Player extends GameObject implements IDamageable{
   
   
   public void loadAttackBox() {
+<<<<<<< Updated upstream
 	  	 attackbox=new Rectangle2D.Float(x,y,15,30); 
+=======
+	  	 attackbox=new Vector(x,y,15,30); 
+>>>>>>> Stashed changes
   }
   
   
@@ -145,10 +155,31 @@ public class Player extends GameObject implements IDamageable{
 			flipX=0;
 			flipW=1;
 		}
+<<<<<<< Updated upstream
 	  if(canMoveHere(x+xSpeed,y+ySpeed)) {
 		  this.x+=xSpeed;
 		  this.y+=ySpeed;
 	  }	  
+=======
+//	  if(canMoveHere(x+xSpeed,y+ySpeed)) {
+//		  this.x+=xSpeed;
+//		  this.y+=ySpeed;
+//	  }	  
+	  
+	  collisionOn=false;
+	  window.cCheck.checkTile(this);
+
+	  window.cCheck.checkEntity(this,Window.sceneObjects.toArray());
+	  
+	  if(collisionOn==false) {
+		  switch(direction) {
+		  case up: y-=speed;break;
+		  case down: y+=speed;break;
+		  case left: x-=speed;break;
+		  case right: x+=speed;break;
+		  }
+	  }
+>>>>>>> Stashed changes
   }
   
   
@@ -186,12 +217,19 @@ public class Player extends GameObject implements IDamageable{
   }
   
   public void DrawAttackbox(Graphics2D g2) {
+<<<<<<< Updated upstream
 	  g2.setColor(Color.blue);
 	  g2.drawRect((int)attackbox.x, (int)attackbox.y,(int) attackbox.width,(int) attackbox.height);
+=======
+	  g2.setColor(Color.blue);	  
+	   int sX=(int)attackbox.x -x+screenX;
+	   int sY=(int)attackbox.y -y+screenY;             	  
+	   g2.drawRect(sX, sY,(int) attackbox.width,(int) attackbox.height);
+>>>>>>> Stashed changes
   }
  
   @Override
-  public Rectangle getHitbox() {
+  public Vector getHitbox() {
 		return hitbox;
   }
   

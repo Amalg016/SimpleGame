@@ -98,11 +98,20 @@ public class Window extends JPanel implements Runnable{
 		ui=new UI(this);
 		player=new Player(this,keyH);
 		//sceneObjects.add(player);
+<<<<<<< Updated upstream
 		Apple apple=new Apple(200,400,player);
+=======
+		Apple apple=new Apple(200,400,this);
+		apple.trigger=true;
+>>>>>>> Stashed changes
 		sceneObjects.add(apple);
 		Zombie z=new Zombie(400,400,player);
 		sceneObjects.add(z);
+<<<<<<< Updated upstream
 		Zombie k=new Zombie(550,100,player);
+=======
+		Zombie k=new Zombie(550,100,this);
+>>>>>>> Stashed changes
 		sceneObjects.add(k);
 	}
 	private boolean P_Ready=true;
@@ -126,6 +135,7 @@ public class Window extends JPanel implements Runnable{
 			}					
 		}		
 		keyH.update();   
+	    
 	} 
 	
 	//Rendering 

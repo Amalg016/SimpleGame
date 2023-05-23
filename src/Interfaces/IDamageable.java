@@ -1,8 +1,8 @@
 package Interfaces;
 
-import java.awt.Rectangle;
+import Components.Vector;
 
 public interface IDamageable {
 public void TakeDamage(int damage);
-public Rectangle getHitbox();
+public Vector getHitbox();
 }

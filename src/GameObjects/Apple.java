@@ -32,7 +32,7 @@ public void update() {
 
 
 public void CheckForPlayer() {
-  	if(player.hitbox.intersects(hitbox)) {	
+  	if(player.hitbox.intersects(this.hitbox)) {	
   		Destroy();
   	}  	
 }
